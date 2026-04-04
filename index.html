@@ -144,6 +144,97 @@
             <p>Reconocimiento de Pokémon por cámara con voz</p>
             <button id="btn-start" class="start-btn">INICIAR POKÉDEX</button>
             <p class="small-text">Se requiere acceso a cámara y micrófono</p>
+            <button id="btn-model-status" class="model-status-btn">🔧 Estado del Modelo</button>
+        </div>
+    </div>
+    
+    <!-- Panel de Estado del Modelo -->
+    <div id="model-panel" class="model-panel" style="display: none;">
+        <div class="model-panel-content">
+            <h2>🧠 Estado del Modelo de Reconocimiento</h2>
+            <div id="model-status-indicator" class="model-status-indicator">
+                <span class="status-dot"></span>
+                <span class="status-text">Verificando...</span>
+            </div>
+            
+            <div class="model-info">
+                <h3>📊 Información del Sistema</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">Modelo CNN:</span>
+                        <span id="cnn-status" class="value">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">MobileNet:</span>
+                        <span id="mobilenet-status" class="value">Cargando...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Sistema Híbrido:</span>
+                        <span id="hybrid-status" class="value">Disponible</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Precisión esperada:</span>
+                        <span id="accuracy-info" class="value">60-80%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="training-section">
+                <h3>🎓 Entrenar Modelo Personalizado</h3>
+                <p class="training-desc">
+                    Entrena un modelo CNN con <strong>7,500+ imágenes</strong> de los 151 Pokémon para obtener 
+                    <strong>75-85% de precisión</strong> en el reconocimiento.
+                </p>
+                
+                <div class="training-steps">
+                    <div class="step">
+                        <span class="step-num">1</span>
+                        <span class="step-text">Descargar dataset (~500MB)</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">2</span>
+                        <span class="step-text">Entrenar modelo (30-60 min)</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">3</span>
+                        <span class="step-text">Listo para usar</span>
+                    </div>
+                </div>
+                
+                <div class="training-actions">
+                    <h4>🖥️ Entrenamiento Automático:</h4>
+                    <div class="script-buttons">
+                        <code class="script-box">training/train-auto.bat</code>
+                        <span class="os-label">Windows</span>
+                    </div>
+                    <div class="script-buttons">
+                        <code class="script-box">training/train-auto.sh</code>
+                        <span class="os-label">Linux/Mac</span>
+                    </div>
+                    
+                    <h4>📝 Comandos Manuales:</h4>
+                    <pre class="code-block">
+cd training
+npm install
+node download-images.js
+node create-model.js
+node train.js</pre>
+                </div>
+                
+                <div class="requirements">
+                    <h4>⚠️ Requisitos:</h4>
+                    <ul>
+                        <li>Node.js 16+</li>
+                        <li>8GB RAM mínimo (16GB recomendado)</li>
+                        <li>~2GB espacio en disco</li>
+                        <li>GPU opcional pero recomendada</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="model-actions">
+                <button id="btn-close-model-panel" class="close-btn">Cerrar</button>
+            </div>
         </div>
     </div>
     
