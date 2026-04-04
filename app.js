@@ -67,10 +67,23 @@ class PokedexApp {
     
     async loadModel() {
         try {
-            this.updateStatus('Cargando modelo de reconocimiento...');
+            this.updateStatus('Cargando modelos de reconocimiento...');
+            
+            // Cargar MobileNet (para análisis general)
             this.model = await mobilenet.load();
+            console.log('✅ MobileNet cargado');
+            
+            // Intentar cargar modelo personalizado de Pokémon (si existe)
+            try {
+                this.pokemonModel = await tf.loadLayersModel('pokemon-model/model.json');
+                console.log('✅ Modelo Pokémon personalizado cargado');
+                this.usePokemonModel = true;
+            } catch (e) {
+                console.log('⚠️ Modelo Pokémon no encontrado, usando sistema híbrido (color + silueta)');
+                this.usePokemonModel = false;
+            }
+            
             this.updateStatus('Sistema listo');
-            console.log('Modelo MobileNet cargado');
         } catch (error) {
             console.error('Error cargando modelo:', error);
             this.updateStatus('Error al cargar modelo');
@@ -138,31 +151,37 @@ class PokedexApp {
             this.canvas.height = this.video.videoHeight || 480;
             this.ctx.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
             
-            // Análisis visual: colores + silueta + MobileNet
-            const predictions = await this.model.classify(this.canvas);
-            const dominantColors = this.analyzeColors();
-            const silhouetteFeatures = this.analyzeSilhouette();
+            let detectedPokemon = null;
             
-            console.log('Predicciones:', predictions);
-            console.log('Colores dominantes:', dominantColors);
-            console.log('Características de silueta:', silhouetteFeatures);
-            
-            // Buscar Pokémon basado en análisis combinado (color 60% + silueta 40%)
-            const detectedPokemon = this.findPokemonByVisualMatch(predictions, dominantColors, silhouetteFeatures);
+            // OPCIÓN 1: Usar modelo CNN entrenado (si existe)
+            if (this.usePokemonModel && this.pokemonModel) {
+                console.log('🔍 Usando modelo CNN entrenado...');
+                detectedPokemon = await this.classifyWithPokemonModel();
+            } 
+            // OPCIÓN 2: Usar sistema híbrido (color + silueta + MobileNet)
+            else {
+                console.log('🔍 Usando sistema híbrido...');
+                const predictions = await this.model.classify(this.canvas);
+                const dominantColors = this.analyzeColors();
+                const silhouetteFeatures = this.analyzeSilhouette();
+                
+                console.log('Predicciones MobileNet:', predictions);
+                console.log('Colores dominantes:', dominantColors);
+                console.log('Características de silueta:', silhouetteFeatures);
+                
+                detectedPokemon = this.findPokemonByVisualMatch(predictions, dominantColors, silhouetteFeatures);
+                
+                if (!detectedPokemon) {
+                    detectedPokemon = this.findBestPossibleMatch(predictions, dominantColors, silhouetteFeatures);
+                }
+            }
             
             if (detectedPokemon) {
                 this.displayPokemon(detectedPokemon);
                 this.speakPokemonFound(detectedPokemon);
             } else {
-                // Si no hay coincidencia fuerte, usar el mejor match posible
-                const fallbackPokemon = this.findBestPossibleMatch(predictions, dominantColors, silhouetteFeatures);
-                if (fallbackPokemon) {
-                    this.displayPokemon(fallbackPokemon);
-                    this.speakPokemonFound(fallbackPokemon);
-                } else {
-                    this.updateStatus('No se pudo identificar. Intenta con mejor iluminación.');
-                    this.speak('No se pudo identificar un Pokémon. Intenta nuevamente.');
-                }
+                this.updateStatus('No se pudo identificar. Intenta con mejor iluminación.');
+                this.speak('No se pudo identificar un Pokémon. Intenta nuevamente.');
             }
             
         } catch (error) {
@@ -413,6 +432,50 @@ class PokedexApp {
         }
         
         return score;
+    }
+    
+    // Clasificar usando modelo CNN entrenado
+    async classifyWithPokemonModel() {
+        if (!this.pokemonModel) return null;
+        
+        try {
+            // Preprocesar imagen para el modelo (224x224)
+            const tensor = tf.tidy(() => {
+                const imageTensor = tf.browser.fromPixels(this.canvas);
+                const resized = tf.image.resizeBilinear(imageTensor, [224, 224]);
+                const normalized = resized.div(255.0);
+                const batched = normalized.expandDims(0);
+                return batched;
+            });
+            
+            // Hacer predicción
+            const predictions = await this.pokemonModel.predict(tensor).data();
+            
+            // Liberar memoria
+            tensor.dispose();
+            
+            // Encontrar top 3 predicciones
+            const top3 = Array.from(predictions)
+                .map((prob, idx) => ({ pokemonId: idx + 1, probability: prob }))
+                .sort((a, b) => b.probability - a.probability)
+                .slice(0, 3);
+            
+            console.log('Top 3 predicciones del modelo:', top3);
+            
+            // Si la confianza es mayor al 50%, devolver el Pokémon
+            if (top3[0].probability >= 0.50) {
+                const pokemon = POKEMON_DATABASE.find(p => p.id === top3[0].pokemonId);
+                if (pokemon) {
+                    console.log(`✅ Modelo CNN detectó: ${pokemon.name} (${(top3[0].probability * 100).toFixed(1)}%)`);
+                    return pokemon;
+                }
+            }
+            
+            return null;
+        } catch (error) {
+            console.error('Error en clasificación CNN:', error);
+            return null;
+        }
     }
     
     findPokemonByVisualMatch(predictions, dominantColors, silhouetteFeatures) {
