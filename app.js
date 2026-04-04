@@ -127,11 +127,14 @@ class PokedexApp {
             
             // Intentar cargar modelo personalizado de Pokémon (si existe)
             try {
-                this.pokemonModel = await tf.loadLayersModel('pokemon-model/model.json');
+                const modelUrl = window.location.origin + '/pokemon-model/model.json';
+                console.log('🔍 Intentando cargar modelo desde:', modelUrl);
+                this.pokemonModel = await tf.loadLayersModel(modelUrl);
                 console.log('✅ Modelo Pokémon personalizado cargado');
                 this.usePokemonModel = true;
             } catch (e) {
                 console.log('⚠️ Modelo Pokémon no encontrado, usando sistema híbrido (color + silueta)');
+                console.log('   Error:', e.message);
                 this.usePokemonModel = false;
             }
             
