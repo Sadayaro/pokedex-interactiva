@@ -138,21 +138,23 @@ class PokedexApp {
             this.canvas.height = this.video.videoHeight || 480;
             this.ctx.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
             
-            // Clasificar imagen
+            // Análisis visual real: MobileNet + colores
             const predictions = await this.model.classify(this.canvas);
-            console.log('Predicciones:', predictions);
+            const dominantColors = this.analyzeColors();
             
-            // Buscar Pokémon basado en las predicciones
-            const detectedPokemon = this.findPokemonFromPredictions(predictions);
+            console.log('Predicciones:', predictions);
+            console.log('Colores dominantes:', dominantColors);
+            
+            // Buscar Pokémon basado en análisis visual real
+            const detectedPokemon = this.findPokemonByVisualMatch(predictions, dominantColors);
             
             if (detectedPokemon) {
                 this.displayPokemon(detectedPokemon);
                 this.speakPokemonFound(detectedPokemon);
             } else {
-                // Si no se reconoce específicamente, mostrar uno aleatorio
-                const randomPokemon = this.getRandomPokemon();
-                this.displayPokemon(randomPokemon, true);
-                this.speakPokemonFound(randomPokemon);
+                // Si no hay coincidencia clara, mostrar mensaje de no reconocido
+                this.updateStatus('No se pudo identificar un Pokémon. Intenta con otro objeto o mejor iluminación.');
+                this.speak('No se pudo identificar un Pokémon. Intenta nuevamente.');
             }
             
         } catch (error) {
@@ -166,52 +168,138 @@ class PokedexApp {
         }
     }
     
-    findPokemonFromPredictions(predictions) {
-        // Mapeo de posibles predicciones a Pokémon
-        const keywordsToPokemon = {
-            'cat': 'Meowth',
-            'dog': 'Growlithe',
-            'turtle': 'Squirtle',
-            'lizard': 'Charmander',
-            'dragon': 'Dragonite',
-            'snake': 'Arbok',
-            'fish': 'Magikarp',
-            'butterfly': 'Butterfree',
-            'mouse': 'Pikachu',
-            'fox': 'Eevee',
-            'wolf': 'Arcanine',
-            'elephant': 'Snorlax',
-            'bird': 'Pidgey',
-            'duck': 'Psyduck',
-            'chicken': 'Torchic',
-            'penguin': 'Piplup',
-            'seal': 'Seel',
-            'dolphin': 'Lapras'
+    analyzeColors() {
+        // Analizar colores dominantes de la imagen
+        const imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+        const data = imageData.data;
+        const colorCounts = {};
+        
+        // Muestrear cada 10 píxeles para optimizar
+        for (let i = 0; i < data.length; i += 40) {
+            const r = data[i];
+            const g = data[i + 1];
+            const b = data[i + 2];
+            
+            // Categorizar colores en rangos básicos
+            const color = this.categorizeColor(r, g, b);
+            colorCounts[color] = (colorCounts[color] || 0) + 1;
+        }
+        
+        // Ordenar por frecuencia
+        const sortedColors = Object.entries(colorCounts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5)
+            .map(entry => entry[0]);
+        
+        return sortedColors;
+    }
+    
+    categorizeColor(r, g, b) {
+        // Determinar color dominante
+        const max = Math.max(r, g, b);
+        const min = Math.min(r, g, b);
+        const brightness = (r + g + b) / 3;
+        
+        // Colores oscuros (sombra/negro)
+        if (brightness < 30) return 'black';
+        if (brightness > 220) return 'white';
+        
+        // Colores brillantes
+        if (max === r && r > 150 && g < 100 && b < 100) return 'red';
+        if (max === r && r > 150 && g > 100 && b < 100) return 'orange';
+        if (max === r && r > 200 && g > 150 && b < 100) return 'gold';
+        if (max === g && g > 150 && r < 100 && b < 100) return 'green';
+        if (max === g && g > 150 && r > 150 && b < 100) return 'yellow';
+        if (max === b && b > 150 && r < 100 && g < 100) return 'blue';
+        if (max === b && b > 150 && r > 150 && g > 150) return 'white';
+        if (max === b && b > 100 && r > 100 && g < 100) return 'purple';
+        if (r > 150 && g > 100 && b > 150) return 'pink';
+        if (r > 100 && g > 100 && b < 50) return 'brown';
+        if (max === r && g > 100 && b > 100) return 'pink';
+        if (max === b && g > 100) return 'teal';
+        if (brightness > 150) return 'gray';
+        
+        return 'brown';
+    }
+    
+    findPokemonByVisualMatch(predictions, dominantColors) {
+        let bestMatch = null;
+        let highestScore = 0;
+        
+        // Palabras clave de MobileNet a categorías de Pokémon
+        const categoryMapping = {
+            'cat': ['cat', 'feline', 'kitten'],
+            'dog': ['dog', 'canine', 'puppy', 'wolf', 'fox'],
+            'turtle': ['turtle', 'tortoise', 'shell'],
+            'lizard': ['lizard', 'reptile', 'gecko'],
+            'dragon': ['dragon', 'dinosaur'],
+            'snake': ['snake', 'serpent'],
+            'fish': ['fish', 'aquatic', 'sea', 'ocean'],
+            'butterfly': ['butterfly', 'moth', 'insect'],
+            'mouse': ['mouse', 'rat', 'rodent'],
+            'elephant': ['elephant', 'large mammal'],
+            'bird': ['bird', 'duck', 'chicken', 'penguin', 'falcon', 'eagle'],
+            'seal': ['seal', 'sea lion', 'walrus'],
+            'monkey': ['monkey', 'ape', 'primate'],
+            'horse': ['horse', 'pony', 'stallion'],
+            'crab': ['crab', 'lobster', 'crustacean'],
+            'bat': ['bat'],
+            'plant': ['plant', 'flower', 'tree'],
+            'ball': ['ball', 'sphere'],
+            'rock': ['rock', 'stone', 'mountain']
         };
         
+        // Obtener categorías detectadas por MobileNet
+        const detectedCategories = [];
         for (const prediction of predictions) {
             const className = prediction.className.toLowerCase();
-            
-            // Buscar coincidencias
-            for (const [keyword, pokemonName] of Object.entries(keywordsToPokemon)) {
-                if (className.includes(keyword)) {
-                    return findPokemonByName(pokemonName);
+            for (const [category, keywords] of Object.entries(categoryMapping)) {
+                if (keywords.some(keyword => className.includes(keyword))) {
+                    detectedCategories.push(category);
                 }
             }
         }
         
-        // Si no hay coincidencia, buscar por color o características
-        return null;
+        // Evaluar cada Pokémon
+        for (const pokemon of POKEMON_DATABASE) {
+            let score = 0;
+            const traits = pokemon.visualTraits;
+            
+            // Puntaje por coincidencia de categoría
+            if (detectedCategories.includes(traits.category)) {
+                score += 50;
+            }
+            
+            // Puntaje por coincidencia de categoría relacionada
+            for (const category of detectedCategories) {
+                if (traits.shape.includes(category)) {
+                    score += 30;
+                }
+            }
+            
+            // Puntaje por coincidencia de colores
+            for (const color of dominantColors) {
+                if (traits.colors.includes(color)) {
+                    score += 20;
+                }
+            }
+            
+            // Bonus por tipos de filtro seleccionado
+            if (this.selectedType !== 'all' && pokemon.types.includes(this.selectedType)) {
+                score += 25;
+            }
+            
+            // Actualizar mejor coincidencia
+            if (score > highestScore && score >= 40) {
+                highestScore = score;
+                bestMatch = pokemon;
+            }
+        }
+        
+        return bestMatch;
     }
     
-    getRandomPokemon() {
-        const available = this.selectedType === 'all' 
-            ? POKEMON_DATABASE 
-            : getPokemonByType(this.selectedType);
-        return available[Math.floor(Math.random() * available.length)];
-    }
-    
-    displayPokemon(pokemon, isSimulation = false) {
+    displayPokemon(pokemon) {
         this.currentPokemon = pokemon;
         
         // Actualizar pantalla de información
@@ -231,7 +319,7 @@ class PokedexApp {
         document.getElementById('pokemon-ability').textContent = pokemon.ability;
         document.getElementById('pokemon-description').textContent = pokemon.description;
         
-        // Mostrar imagen placeholder (usando sprites de Pokémon)
+        // Mostrar imagen del Pokémon detectado
         const pokemonImage = document.getElementById('pokemon-image');
         pokemonImage.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`;
         pokemonImage.style.display = 'block';
@@ -239,7 +327,7 @@ class PokedexApp {
         this.video.style.display = 'none';
         
         // Actualizar status
-        this.updateStatus(`${isSimulation ? 'Simulación' : 'Pokémon encontrado'}: ${pokemon.name}`);
+        this.updateStatus(`Pokémon encontrado: ${pokemon.name}`);
         
         // Activar LEDs
         document.querySelector('.led-1').classList.add('active');
@@ -311,9 +399,13 @@ class PokedexApp {
     }
     
     showRandomPokemon() {
-        const random = this.getRandomPokemon();
-        this.displayPokemon(random, true);
-        this.speakPokemonFound(random);
+        // Función para mostrar un Pokémon aleatorio de la selección actual
+        const available = this.selectedType === 'all' 
+            ? POKEMON_DATABASE 
+            : getPokemonByType(this.selectedType);
+        const random = available[Math.floor(Math.random() * available.length)];
+        this.displayPokemon(random);
+        this.speak(`Mostrando ${random.name} de la base de datos.`);
     }
     
     filterByType(type) {
