@@ -1,6 +1,7 @@
 {
   "modelTopology": {
-    "model_config": {
+    "class_name": "Functional",
+    "config": {
       "name": "sequential",
       "trainable": true,
       "dtype": {
@@ -11960,274 +11961,11 @@
   "weightsManifest": [
     {
       "paths": [
-        "weights_0.bin",
-        "weights_1.bin",
-        "weights_2.bin",
-        "weights_3.bin",
-        "weights_4.bin",
-        "weights_5.bin",
-        "weights_6.bin",
-        "weights_7.bin",
-        "weights_8.bin",
-        "weights_9.bin",
-        "weights_10.bin",
-        "weights_11.bin",
-        "weights_12.bin",
-        "weights_13.bin",
-        "weights_14.bin",
-        "weights_15.bin",
-        "weights_16.bin",
-        "weights_17.bin",
-        "weights_18.bin",
-        "weights_19.bin",
-        "weights_20.bin",
-        "weights_21.bin",
-        "weights_22.bin",
-        "weights_23.bin",
-        "weights_24.bin",
-        "weights_25.bin",
-        "weights_26.bin",
-        "weights_27.bin",
-        "weights_28.bin",
-        "weights_29.bin",
-        "weights_30.bin",
-        "weights_31.bin",
-        "weights_32.bin",
-        "weights_33.bin",
-        "weights_34.bin",
-        "weights_35.bin",
-        "weights_36.bin",
-        "weights_37.bin",
-        "weights_38.bin",
-        "weights_39.bin",
-        "weights_40.bin",
-        "weights_41.bin",
-        "weights_42.bin",
-        "weights_43.bin",
-        "weights_44.bin",
-        "weights_45.bin",
-        "weights_46.bin",
-        "weights_47.bin",
-        "weights_48.bin",
-        "weights_49.bin",
-        "weights_50.bin",
-        "weights_51.bin",
-        "weights_52.bin",
-        "weights_53.bin",
-        "weights_54.bin",
-        "weights_55.bin",
-        "weights_56.bin",
-        "weights_57.bin",
-        "weights_58.bin",
-        "weights_59.bin",
-        "weights_60.bin",
-        "weights_61.bin",
-        "weights_62.bin",
-        "weights_63.bin",
-        "weights_64.bin",
-        "weights_65.bin",
-        "weights_66.bin",
-        "weights_67.bin",
-        "weights_68.bin",
-        "weights_69.bin",
-        "weights_70.bin",
-        "weights_71.bin",
-        "weights_72.bin",
-        "weights_73.bin",
-        "weights_74.bin",
-        "weights_75.bin",
-        "weights_76.bin",
-        "weights_77.bin",
-        "weights_78.bin",
-        "weights_79.bin",
-        "weights_80.bin",
-        "weights_81.bin",
-        "weights_82.bin",
-        "weights_83.bin",
-        "weights_84.bin",
-        "weights_85.bin",
-        "weights_86.bin",
-        "weights_87.bin",
-        "weights_88.bin",
-        "weights_89.bin",
-        "weights_90.bin",
-        "weights_91.bin",
-        "weights_92.bin",
-        "weights_93.bin",
-        "weights_94.bin",
-        "weights_95.bin",
-        "weights_96.bin",
-        "weights_97.bin",
-        "weights_98.bin",
-        "weights_99.bin",
-        "weights_100.bin",
-        "weights_101.bin",
-        "weights_102.bin",
-        "weights_103.bin",
-        "weights_104.bin",
-        "weights_105.bin",
-        "weights_106.bin",
-        "weights_107.bin",
-        "weights_108.bin",
-        "weights_109.bin",
-        "weights_110.bin",
-        "weights_111.bin",
-        "weights_112.bin",
-        "weights_113.bin",
-        "weights_114.bin",
-        "weights_115.bin",
-        "weights_116.bin",
-        "weights_117.bin",
-        "weights_118.bin",
-        "weights_119.bin",
-        "weights_120.bin",
-        "weights_121.bin",
-        "weights_122.bin",
-        "weights_123.bin",
-        "weights_124.bin",
-        "weights_125.bin",
-        "weights_126.bin",
-        "weights_127.bin",
-        "weights_128.bin",
-        "weights_129.bin",
-        "weights_130.bin",
-        "weights_131.bin",
-        "weights_132.bin",
-        "weights_133.bin",
-        "weights_134.bin",
-        "weights_135.bin",
-        "weights_136.bin",
-        "weights_137.bin",
-        "weights_138.bin",
-        "weights_139.bin",
-        "weights_140.bin",
-        "weights_141.bin",
-        "weights_142.bin",
-        "weights_143.bin",
-        "weights_144.bin",
-        "weights_145.bin",
-        "weights_146.bin",
-        "weights_147.bin",
-        "weights_148.bin",
-        "weights_149.bin",
-        "weights_150.bin",
-        "weights_151.bin",
-        "weights_152.bin",
-        "weights_153.bin",
-        "weights_154.bin",
-        "weights_155.bin",
-        "weights_156.bin",
-        "weights_157.bin",
-        "weights_158.bin",
-        "weights_159.bin",
-        "weights_160.bin",
-        "weights_161.bin",
-        "weights_162.bin",
-        "weights_163.bin",
-        "weights_164.bin",
-        "weights_165.bin",
-        "weights_166.bin",
-        "weights_167.bin",
-        "weights_168.bin",
-        "weights_169.bin",
-        "weights_170.bin",
-        "weights_171.bin",
-        "weights_172.bin",
-        "weights_173.bin",
-        "weights_174.bin",
-        "weights_175.bin",
-        "weights_176.bin",
-        "weights_177.bin",
-        "weights_178.bin",
-        "weights_179.bin",
-        "weights_180.bin",
-        "weights_181.bin",
-        "weights_182.bin",
-        "weights_183.bin",
-        "weights_184.bin",
-        "weights_185.bin",
-        "weights_186.bin",
-        "weights_187.bin",
-        "weights_188.bin",
-        "weights_189.bin",
-        "weights_190.bin",
-        "weights_191.bin",
-        "weights_192.bin",
-        "weights_193.bin",
-        "weights_194.bin",
-        "weights_195.bin",
-        "weights_196.bin",
-        "weights_197.bin",
-        "weights_198.bin",
-        "weights_199.bin",
-        "weights_200.bin",
-        "weights_201.bin",
-        "weights_202.bin",
-        "weights_203.bin",
-        "weights_204.bin",
-        "weights_205.bin",
-        "weights_206.bin",
-        "weights_207.bin",
-        "weights_208.bin",
-        "weights_209.bin",
-        "weights_210.bin",
-        "weights_211.bin",
-        "weights_212.bin",
-        "weights_213.bin",
-        "weights_214.bin",
-        "weights_215.bin",
-        "weights_216.bin",
-        "weights_217.bin",
-        "weights_218.bin",
-        "weights_219.bin",
-        "weights_220.bin",
-        "weights_221.bin",
-        "weights_222.bin",
-        "weights_223.bin",
-        "weights_224.bin",
-        "weights_225.bin",
-        "weights_226.bin",
-        "weights_227.bin",
-        "weights_228.bin",
-        "weights_229.bin",
-        "weights_230.bin",
-        "weights_231.bin",
-        "weights_232.bin",
-        "weights_233.bin",
-        "weights_234.bin",
-        "weights_235.bin",
-        "weights_236.bin",
-        "weights_237.bin",
-        "weights_238.bin",
-        "weights_239.bin",
-        "weights_240.bin",
-        "weights_241.bin",
-        "weights_242.bin",
-        "weights_243.bin",
-        "weights_244.bin",
-        "weights_245.bin",
-        "weights_246.bin",
-        "weights_247.bin",
-        "weights_248.bin",
-        "weights_249.bin",
-        "weights_250.bin",
-        "weights_251.bin",
-        "weights_252.bin",
-        "weights_253.bin",
-        "weights_254.bin",
-        "weights_255.bin",
-        "weights_256.bin",
-        "weights_257.bin",
-        "weights_258.bin",
-        "weights_259.bin",
-        "weights_260.bin",
-        "weights_261.bin",
-        "weights_262.bin",
-        "weights_263.bin"
+        "weights.bin"
       ],
       "weights": [
         {
-          "name": "weights_0.bin",
+          "name": "w0",
           "shape": [
             3,
             3,
@@ -12237,35 +11975,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_1.bin",
+          "name": "w1",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_2.bin",
+          "name": "w2",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_3.bin",
+          "name": "w3",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_4.bin",
+          "name": "w4",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_5.bin",
+          "name": "w5",
           "shape": [
             3,
             3,
@@ -12275,35 +12013,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_6.bin",
+          "name": "w6",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_7.bin",
+          "name": "w7",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_8.bin",
+          "name": "w8",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_9.bin",
+          "name": "w9",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_10.bin",
+          "name": "w10",
           "shape": [
             1,
             1,
@@ -12313,35 +12051,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_11.bin",
+          "name": "w11",
           "shape": [
             16
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_12.bin",
+          "name": "w12",
           "shape": [
             16
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_13.bin",
+          "name": "w13",
           "shape": [
             16
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_14.bin",
+          "name": "w14",
           "shape": [
             16
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_15.bin",
+          "name": "w15",
           "shape": [
             1,
             1,
@@ -12351,35 +12089,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_16.bin",
+          "name": "w16",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_17.bin",
+          "name": "w17",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_18.bin",
+          "name": "w18",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_19.bin",
+          "name": "w19",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_20.bin",
+          "name": "w20",
           "shape": [
             3,
             3,
@@ -12389,35 +12127,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_21.bin",
+          "name": "w21",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_22.bin",
+          "name": "w22",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_23.bin",
+          "name": "w23",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_24.bin",
+          "name": "w24",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_25.bin",
+          "name": "w25",
           "shape": [
             1,
             1,
@@ -12427,35 +12165,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_26.bin",
+          "name": "w26",
           "shape": [
             24
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_27.bin",
+          "name": "w27",
           "shape": [
             24
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_28.bin",
+          "name": "w28",
           "shape": [
             24
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_29.bin",
+          "name": "w29",
           "shape": [
             24
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_30.bin",
+          "name": "w30",
           "shape": [
             1,
             1,
@@ -12465,35 +12203,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_31.bin",
+          "name": "w31",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_32.bin",
+          "name": "w32",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_33.bin",
+          "name": "w33",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_34.bin",
+          "name": "w34",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_35.bin",
+          "name": "w35",
           "shape": [
             3,
             3,
@@ -12503,35 +12241,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_36.bin",
+          "name": "w36",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_37.bin",
+          "name": "w37",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_38.bin",
+          "name": "w38",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_39.bin",
+          "name": "w39",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_40.bin",
+          "name": "w40",
           "shape": [
             1,
             1,
@@ -12541,35 +12279,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_41.bin",
+          "name": "w41",
           "shape": [
             24
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_42.bin",
+          "name": "w42",
           "shape": [
             24
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_43.bin",
+          "name": "w43",
           "shape": [
             24
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_44.bin",
+          "name": "w44",
           "shape": [
             24
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_45.bin",
+          "name": "w45",
           "shape": [
             1,
             1,
@@ -12579,35 +12317,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_46.bin",
+          "name": "w46",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_47.bin",
+          "name": "w47",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_48.bin",
+          "name": "w48",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_49.bin",
+          "name": "w49",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_50.bin",
+          "name": "w50",
           "shape": [
             3,
             3,
@@ -12617,35 +12355,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_51.bin",
+          "name": "w51",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_52.bin",
+          "name": "w52",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_53.bin",
+          "name": "w53",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_54.bin",
+          "name": "w54",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_55.bin",
+          "name": "w55",
           "shape": [
             1,
             1,
@@ -12655,35 +12393,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_56.bin",
+          "name": "w56",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_57.bin",
+          "name": "w57",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_58.bin",
+          "name": "w58",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_59.bin",
+          "name": "w59",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_60.bin",
+          "name": "w60",
           "shape": [
             1,
             1,
@@ -12693,35 +12431,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_61.bin",
+          "name": "w61",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_62.bin",
+          "name": "w62",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_63.bin",
+          "name": "w63",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_64.bin",
+          "name": "w64",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_65.bin",
+          "name": "w65",
           "shape": [
             3,
             3,
@@ -12731,35 +12469,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_66.bin",
+          "name": "w66",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_67.bin",
+          "name": "w67",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_68.bin",
+          "name": "w68",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_69.bin",
+          "name": "w69",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_70.bin",
+          "name": "w70",
           "shape": [
             1,
             1,
@@ -12769,35 +12507,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_71.bin",
+          "name": "w71",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_72.bin",
+          "name": "w72",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_73.bin",
+          "name": "w73",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_74.bin",
+          "name": "w74",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_75.bin",
+          "name": "w75",
           "shape": [
             1,
             1,
@@ -12807,35 +12545,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_76.bin",
+          "name": "w76",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_77.bin",
+          "name": "w77",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_78.bin",
+          "name": "w78",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_79.bin",
+          "name": "w79",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_80.bin",
+          "name": "w80",
           "shape": [
             3,
             3,
@@ -12845,35 +12583,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_81.bin",
+          "name": "w81",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_82.bin",
+          "name": "w82",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_83.bin",
+          "name": "w83",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_84.bin",
+          "name": "w84",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_85.bin",
+          "name": "w85",
           "shape": [
             1,
             1,
@@ -12883,35 +12621,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_86.bin",
+          "name": "w86",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_87.bin",
+          "name": "w87",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_88.bin",
+          "name": "w88",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_89.bin",
+          "name": "w89",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_90.bin",
+          "name": "w90",
           "shape": [
             1,
             1,
@@ -12921,35 +12659,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_91.bin",
+          "name": "w91",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_92.bin",
+          "name": "w92",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_93.bin",
+          "name": "w93",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_94.bin",
+          "name": "w94",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_95.bin",
+          "name": "w95",
           "shape": [
             3,
             3,
@@ -12959,35 +12697,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_96.bin",
+          "name": "w96",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_97.bin",
+          "name": "w97",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_98.bin",
+          "name": "w98",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_99.bin",
+          "name": "w99",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_100.bin",
+          "name": "w100",
           "shape": [
             1,
             1,
@@ -12997,35 +12735,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_101.bin",
+          "name": "w101",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_102.bin",
+          "name": "w102",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_103.bin",
+          "name": "w103",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_104.bin",
+          "name": "w104",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_105.bin",
+          "name": "w105",
           "shape": [
             1,
             1,
@@ -13035,35 +12773,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_106.bin",
+          "name": "w106",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_107.bin",
+          "name": "w107",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_108.bin",
+          "name": "w108",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_109.bin",
+          "name": "w109",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_110.bin",
+          "name": "w110",
           "shape": [
             3,
             3,
@@ -13073,35 +12811,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_111.bin",
+          "name": "w111",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_112.bin",
+          "name": "w112",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_113.bin",
+          "name": "w113",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_114.bin",
+          "name": "w114",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_115.bin",
+          "name": "w115",
           "shape": [
             1,
             1,
@@ -13111,35 +12849,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_116.bin",
+          "name": "w116",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_117.bin",
+          "name": "w117",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_118.bin",
+          "name": "w118",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_119.bin",
+          "name": "w119",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_120.bin",
+          "name": "w120",
           "shape": [
             1,
             1,
@@ -13149,35 +12887,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_121.bin",
+          "name": "w121",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_122.bin",
+          "name": "w122",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_123.bin",
+          "name": "w123",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_124.bin",
+          "name": "w124",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_125.bin",
+          "name": "w125",
           "shape": [
             3,
             3,
@@ -13187,35 +12925,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_126.bin",
+          "name": "w126",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_127.bin",
+          "name": "w127",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_128.bin",
+          "name": "w128",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_129.bin",
+          "name": "w129",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_130.bin",
+          "name": "w130",
           "shape": [
             1,
             1,
@@ -13225,35 +12963,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_131.bin",
+          "name": "w131",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_132.bin",
+          "name": "w132",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_133.bin",
+          "name": "w133",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_134.bin",
+          "name": "w134",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_135.bin",
+          "name": "w135",
           "shape": [
             1,
             1,
@@ -13263,35 +13001,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_136.bin",
+          "name": "w136",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_137.bin",
+          "name": "w137",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_138.bin",
+          "name": "w138",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_139.bin",
+          "name": "w139",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_140.bin",
+          "name": "w140",
           "shape": [
             3,
             3,
@@ -13301,35 +13039,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_141.bin",
+          "name": "w141",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_142.bin",
+          "name": "w142",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_143.bin",
+          "name": "w143",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_144.bin",
+          "name": "w144",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_145.bin",
+          "name": "w145",
           "shape": [
             1,
             1,
@@ -13339,35 +13077,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_146.bin",
+          "name": "w146",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_147.bin",
+          "name": "w147",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_148.bin",
+          "name": "w148",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_149.bin",
+          "name": "w149",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_150.bin",
+          "name": "w150",
           "shape": [
             1,
             1,
@@ -13377,35 +13115,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_151.bin",
+          "name": "w151",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_152.bin",
+          "name": "w152",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_153.bin",
+          "name": "w153",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_154.bin",
+          "name": "w154",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_155.bin",
+          "name": "w155",
           "shape": [
             3,
             3,
@@ -13415,35 +13153,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_156.bin",
+          "name": "w156",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_157.bin",
+          "name": "w157",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_158.bin",
+          "name": "w158",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_159.bin",
+          "name": "w159",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_160.bin",
+          "name": "w160",
           "shape": [
             1,
             1,
@@ -13453,35 +13191,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_161.bin",
+          "name": "w161",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_162.bin",
+          "name": "w162",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_163.bin",
+          "name": "w163",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_164.bin",
+          "name": "w164",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_165.bin",
+          "name": "w165",
           "shape": [
             1,
             1,
@@ -13491,35 +13229,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_166.bin",
+          "name": "w166",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_167.bin",
+          "name": "w167",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_168.bin",
+          "name": "w168",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_169.bin",
+          "name": "w169",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_170.bin",
+          "name": "w170",
           "shape": [
             3,
             3,
@@ -13529,35 +13267,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_171.bin",
+          "name": "w171",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_172.bin",
+          "name": "w172",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_173.bin",
+          "name": "w173",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_174.bin",
+          "name": "w174",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_175.bin",
+          "name": "w175",
           "shape": [
             1,
             1,
@@ -13567,35 +13305,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_176.bin",
+          "name": "w176",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_177.bin",
+          "name": "w177",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_178.bin",
+          "name": "w178",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_179.bin",
+          "name": "w179",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_180.bin",
+          "name": "w180",
           "shape": [
             1,
             1,
@@ -13605,35 +13343,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_181.bin",
+          "name": "w181",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_182.bin",
+          "name": "w182",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_183.bin",
+          "name": "w183",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_184.bin",
+          "name": "w184",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_185.bin",
+          "name": "w185",
           "shape": [
             3,
             3,
@@ -13643,35 +13381,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_186.bin",
+          "name": "w186",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_187.bin",
+          "name": "w187",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_188.bin",
+          "name": "w188",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_189.bin",
+          "name": "w189",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_190.bin",
+          "name": "w190",
           "shape": [
             1,
             1,
@@ -13681,35 +13419,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_191.bin",
+          "name": "w191",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_192.bin",
+          "name": "w192",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_193.bin",
+          "name": "w193",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_194.bin",
+          "name": "w194",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_195.bin",
+          "name": "w195",
           "shape": [
             1,
             1,
@@ -13719,35 +13457,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_196.bin",
+          "name": "w196",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_197.bin",
+          "name": "w197",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_198.bin",
+          "name": "w198",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_199.bin",
+          "name": "w199",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_200.bin",
+          "name": "w200",
           "shape": [
             3,
             3,
@@ -13757,35 +13495,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_201.bin",
+          "name": "w201",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_202.bin",
+          "name": "w202",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_203.bin",
+          "name": "w203",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_204.bin",
+          "name": "w204",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_205.bin",
+          "name": "w205",
           "shape": [
             1,
             1,
@@ -13795,35 +13533,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_206.bin",
+          "name": "w206",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_207.bin",
+          "name": "w207",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_208.bin",
+          "name": "w208",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_209.bin",
+          "name": "w209",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_210.bin",
+          "name": "w210",
           "shape": [
             1,
             1,
@@ -13833,35 +13571,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_211.bin",
+          "name": "w211",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_212.bin",
+          "name": "w212",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_213.bin",
+          "name": "w213",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_214.bin",
+          "name": "w214",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_215.bin",
+          "name": "w215",
           "shape": [
             3,
             3,
@@ -13871,35 +13609,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_216.bin",
+          "name": "w216",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_217.bin",
+          "name": "w217",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_218.bin",
+          "name": "w218",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_219.bin",
+          "name": "w219",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_220.bin",
+          "name": "w220",
           "shape": [
             1,
             1,
@@ -13909,35 +13647,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_221.bin",
+          "name": "w221",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_222.bin",
+          "name": "w222",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_223.bin",
+          "name": "w223",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_224.bin",
+          "name": "w224",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_225.bin",
+          "name": "w225",
           "shape": [
             1,
             1,
@@ -13947,35 +13685,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_226.bin",
+          "name": "w226",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_227.bin",
+          "name": "w227",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_228.bin",
+          "name": "w228",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_229.bin",
+          "name": "w229",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_230.bin",
+          "name": "w230",
           "shape": [
             3,
             3,
@@ -13985,35 +13723,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_231.bin",
+          "name": "w231",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_232.bin",
+          "name": "w232",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_233.bin",
+          "name": "w233",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_234.bin",
+          "name": "w234",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_235.bin",
+          "name": "w235",
           "shape": [
             1,
             1,
@@ -14023,35 +13761,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_236.bin",
+          "name": "w236",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_237.bin",
+          "name": "w237",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_238.bin",
+          "name": "w238",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_239.bin",
+          "name": "w239",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_240.bin",
+          "name": "w240",
           "shape": [
             1,
             1,
@@ -14061,35 +13799,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_241.bin",
+          "name": "w241",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_242.bin",
+          "name": "w242",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_243.bin",
+          "name": "w243",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_244.bin",
+          "name": "w244",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_245.bin",
+          "name": "w245",
           "shape": [
             3,
             3,
@@ -14099,35 +13837,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_246.bin",
+          "name": "w246",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_247.bin",
+          "name": "w247",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_248.bin",
+          "name": "w248",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_249.bin",
+          "name": "w249",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_250.bin",
+          "name": "w250",
           "shape": [
             1,
             1,
@@ -14137,35 +13875,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_251.bin",
+          "name": "w251",
           "shape": [
             320
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_252.bin",
+          "name": "w252",
           "shape": [
             320
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_253.bin",
+          "name": "w253",
           "shape": [
             320
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_254.bin",
+          "name": "w254",
           "shape": [
             320
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_255.bin",
+          "name": "w255",
           "shape": [
             1,
             1,
@@ -14175,35 +13913,35 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_256.bin",
+          "name": "w256",
           "shape": [
             1280
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_257.bin",
+          "name": "w257",
           "shape": [
             1280
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_258.bin",
+          "name": "w258",
           "shape": [
             1280
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_259.bin",
+          "name": "w259",
           "shape": [
             1280
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_260.bin",
+          "name": "w260",
           "shape": [
             1280,
             512
@@ -14211,14 +13949,14 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_261.bin",
+          "name": "w261",
           "shape": [
             512
           ],
           "dtype": "float32"
         },
         {
-          "name": "weights_262.bin",
+          "name": "w262",
           "shape": [
             512,
             151
@@ -14226,7 +13964,7 @@
           "dtype": "float32"
         },
         {
-          "name": "weights_263.bin",
+          "name": "w263",
           "shape": [
             151
           ],

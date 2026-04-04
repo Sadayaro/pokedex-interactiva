@@ -2,7 +2,5 @@
   "version": "1.0",
   "num_classes": 151,
   "image_size": 224,
-  "model_type": "cnn_mobilenet",
-  "description": "Modelo CNN para reconocimiento de 151 Pok\u00e9mon",
-  "converted_manually": true
+  "converted_at": "2026-04-04T23:04:29"
 }
