@@ -138,22 +138,24 @@ class PokedexApp {
             this.canvas.height = this.video.videoHeight || 480;
             this.ctx.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
             
-            // Análisis visual real: MobileNet + colores
+            // Análisis visual: colores + silueta + MobileNet
             const predictions = await this.model.classify(this.canvas);
             const dominantColors = this.analyzeColors();
+            const silhouetteFeatures = this.analyzeSilhouette();
             
             console.log('Predicciones:', predictions);
             console.log('Colores dominantes:', dominantColors);
+            console.log('Características de silueta:', silhouetteFeatures);
             
-            // Buscar Pokémon basado en análisis visual real
-            const detectedPokemon = this.findPokemonByVisualMatch(predictions, dominantColors);
+            // Buscar Pokémon basado en análisis combinado (color 60% + silueta 40%)
+            const detectedPokemon = this.findPokemonByVisualMatch(predictions, dominantColors, silhouetteFeatures);
             
             if (detectedPokemon) {
                 this.displayPokemon(detectedPokemon);
                 this.speakPokemonFound(detectedPokemon);
             } else {
                 // Si no hay coincidencia fuerte, usar el mejor match posible
-                const fallbackPokemon = this.findBestPossibleMatch(predictions, dominantColors);
+                const fallbackPokemon = this.findBestPossibleMatch(predictions, dominantColors, silhouetteFeatures);
                 if (fallbackPokemon) {
                     this.displayPokemon(fallbackPokemon);
                     this.speakPokemonFound(fallbackPokemon);
@@ -228,12 +230,196 @@ class PokedexApp {
         return 'brown';
     }
     
-    findPokemonByVisualMatch(predictions, dominantColors) {
+    analyzeSilhouette() {
+        // Análisis de silueta/contorno de la imagen
+        const width = this.canvas.width;
+        const height = this.canvas.height;
+        const imageData = this.ctx.getImageData(0, 0, width, height);
+        const data = imageData.data;
+        
+        // Crear matriz de bordes (edge detection simple)
+        const edges = [];
+        const threshold = 30; // Umbral para detectar cambios de color
+        
+        for (let y = 1; y < height - 1; y += 4) { // Muestrear cada 4 píxeles para optimizar
+            for (let x = 1; x < width - 1; x += 4) {
+                const idx = (y * width + x) * 4;
+                const rightIdx = (y * width + (x + 1)) * 4;
+                const bottomIdx = ((y + 1) * width + x) * 4;
+                
+                // Calcular diferencia de color con vecinos
+                const diffRight = Math.abs(data[idx] - data[rightIdx]) + 
+                                  Math.abs(data[idx + 1] - data[rightIdx + 1]) + 
+                                  Math.abs(data[idx + 2] - data[rightIdx + 2]);
+                
+                const diffBottom = Math.abs(data[idx] - data[bottomIdx]) + 
+                                   Math.abs(data[idx + 1] - data[bottomIdx + 1]) + 
+                                   Math.abs(data[idx + 2] - data[bottomIdx + 2]);
+                
+                if (diffRight > threshold || diffBottom > threshold) {
+                    edges.push({x: x / width, y: y / height}); // Normalizar 0-1
+                }
+            }
+        }
+        
+        // Calcular características de la silueta
+        const features = {
+            edgeCount: edges.length,
+            aspectRatio: this.calculateAspectRatio(edges),
+            complexity: edges.length / (width * height / 16), // Densidad de bordes
+            centroid: this.calculateCentroid(edges),
+            boundingBox: this.calculateBoundingBox(edges),
+            edgeDistribution: this.calculateEdgeDistribution(edges),
+            hasWings: this.detectWingShape(edges),
+            hasTail: this.detectTailShape(edges),
+            isRound: this.detectRoundness(edges),
+            isTall: this.detectTallness(edges),
+            hasMultipleLimbs: this.detectMultipleLimbs(edges)
+        };
+        
+        return features;
+    }
+    
+    calculateAspectRatio(edges) {
+        if (edges.length === 0) return 1;
+        const xs = edges.map(e => e.x);
+        const ys = edges.map(e => e.y);
+        const width = Math.max(...xs) - Math.min(...xs);
+        const height = Math.max(...ys) - Math.min(...ys);
+        return width > 0 ? height / width : 1;
+    }
+    
+    calculateCentroid(edges) {
+        if (edges.length === 0) return {x: 0.5, y: 0.5};
+        const avgX = edges.reduce((sum, e) => sum + e.x, 0) / edges.length;
+        const avgY = edges.reduce((sum, e) => sum + e.y, 0) / edges.length;
+        return {x: avgX, y: avgY};
+    }
+    
+    calculateBoundingBox(edges) {
+        if (edges.length === 0) return {width: 0, height: 0};
+        const xs = edges.map(e => e.x);
+        const ys = edges.map(e => e.y);
+        return {
+            width: Math.max(...xs) - Math.min(...xs),
+            height: Math.max(...ys) - Math.min(...ys)
+        };
+    }
+    
+    calculateEdgeDistribution(edges) {
+        // Dividir en 9 regiones (3x3 grid)
+        const regions = Array(9).fill(0);
+        edges.forEach(e => {
+            const regionX = Math.min(2, Math.floor(e.x * 3));
+            const regionY = Math.min(2, Math.floor(e.y * 3));
+            regions[regionY * 3 + regionX]++;
+        });
+        const total = edges.length || 1;
+        return regions.map(r => r / total);
+    }
+    
+    detectWingShape(edges) {
+        // Detectar alas: expansiones laterales en la parte superior
+        const distribution = this.calculateEdgeDistribution(edges);
+        // Más bordes en esquinas superiores (0, 2) y centros laterales (3, 5)
+        const wingRegions = distribution[0] + distribution[2] + distribution[3] + distribution[5];
+        return wingRegions > 0.3; // 30% de bordes en regiones de alas
+    }
+    
+    detectTailShape(edges) {
+        // Detectar cola: extensión inferior posterior
+        const distribution = this.calculateEdgeDistribution(edges);
+        const tailRegions = distribution[6] + distribution[8]; // Esquinas inferiores
+        return tailRegions > 0.15;
+    }
+    
+    detectRoundness(edges) {
+        // Detectar redondez: distribución uniforme de bordes alrededor del centro
+        const centroid = this.calculateCentroid(edges);
+        const distances = edges.map(e => 
+            Math.sqrt(Math.pow(e.x - centroid.x, 2) + Math.pow(e.y - centroid.y, 2))
+        );
+        const avgDist = distances.reduce((a, b) => a + b, 0) / distances.length;
+        const variance = distances.reduce((sum, d) => sum + Math.pow(d - avgDist, 2), 0) / distances.length;
+        return variance < 0.02; // Baja varianza = forma circular
+    }
+    
+    detectTallness(edges) {
+        const aspectRatio = this.calculateAspectRatio(edges);
+        return aspectRatio > 1.5; // Más alto que ancho
+    }
+    
+    detectMultipleLimbs(edges) {
+        // Detectar múltiples extremidades: bordes dispersos en 4+ regiones
+        const distribution = this.calculateEdgeDistribution(edges);
+        const activeRegions = distribution.filter(r => r > 0.1).length;
+        return activeRegions >= 4;
+    }
+    
+    // Comparar silueta detectada con características de Pokémon
+    compareSilhouette(silhouette, pokemonTraits) {
+        let score = 0;
+        const bodyStyle = pokemonTraits.bodyStyle || '';
+        
+        // Puntuación basada en forma
+        if (silhouette.hasWings && (
+            bodyStyle.includes('alas') || bodyStyle.includes('ave') || 
+            bodyStyle.includes('butterfly') || bodyStyle.includes('dragon')
+        )) {
+            score += 40;
+        }
+        
+        if (silhouette.hasTail && (
+            bodyStyle.includes('cola') || bodyStyle.includes('serpiente') ||
+            bodyStyle.includes('dragon')
+        )) {
+            score += 30;
+        }
+        
+        if (silhouette.isRound && (
+            bodyStyle.includes('esfera') || bodyStyle.includes('redondo') ||
+            bodyStyle === 'bipedo_redondo'
+        )) {
+            score += 35;
+        }
+        
+        if (silhouette.isTall && (
+            bodyStyle.includes('tallo') || bodyStyle.includes('palmera') ||
+            bodyStyle === 'bipedo_largo'
+        )) {
+            score += 30;
+        }
+        
+        if (silhouette.hasMultipleLimbs && (
+            bodyStyle.includes('patas') || bodyStyle.includes('tentaculos') ||
+            bodyStyle.includes('insecto')
+        )) {
+            score += 35;
+        }
+        
+        // Aspecto general
+        if (silhouette.aspectRatio > 1.3 && bodyStyle.includes('bipedo')) {
+            score += 20;
+        }
+        
+        if (silhouette.aspectRatio < 1.0 && bodyStyle.includes('cuadrupedo')) {
+            score += 20;
+        }
+        
+        if (silhouette.complexity > 0.1 && (
+            bodyStyle.includes('detallado') || bodyStyle.includes('espinas')
+        )) {
+            score += 15;
+        }
+        
+        return score;
+    }
+    
+    findPokemonByVisualMatch(predictions, dominantColors, silhouetteFeatures) {
         let bestMatch = null;
         let highestScore = 0;
         let bestConfidence = 0;
         
-        // Usar la base de datos de formas avanzada
         const shapeDB = window.POKEMON_SHAPES_DATABASE;
         
         // Detectar formas desde MobileNet
@@ -244,7 +430,6 @@ class PokedexApp {
             const className = prediction.className.toLowerCase();
             detectedKeywords.push(...className.split(',').map(s => s.trim()));
             
-            // Mapear predicciones de MobileNet a bodyStyles
             for (const [shapeName, shapeData] of Object.entries(shapeDB.bodyStyles)) {
                 const keywords = shapeData.keyFeatures || [];
                 if (keywords.some(kw => className.includes(kw))) {
@@ -253,84 +438,74 @@ class PokedexApp {
             }
         }
         
-        // Evaluar cada Pokémon con sistema de confianza
+        // Evaluar cada Pokémon con sistema de confianza (COLOR 60% + SILUETA 40%)
         for (const pokemon of POKEMON_DATABASE) {
             const traits = pokemon.visualTraits;
-            let score = 0;
-            let confidence = 0;
-            let matchDetails = [];
             
-            // 1. COINCIDENCIA EXACTA DE FORMA (bodyStyle) - 150 puntos
-            if (detectedShapes.includes(traits.bodyStyle)) {
-                score += 150;
-                confidence += 0.5;
-                matchDetails.push('forma_exacta');
-            }
+            // === COLOR (60% del score) ===
+            let colorScore = 0;
+            let colorConfidence = 0;
             
-            // 2. Verificar características específicas del Pokémon (si existen)
             const specificFeatures = shapeDB.pokemonSpecificFeatures[pokemon.name];
             if (specificFeatures) {
-                // Coincidencia de firma de color
                 const colorMatch = shapeDB.calculateColorSimilarity(
                     dominantColors, 
                     specificFeatures.colorSignature
                 );
-                score += colorMatch * 100;
-                confidence += colorMatch * 0.3;
-                
-                // Coincidencia de forma específica
-                if (specificFeatures.shapeSignature === traits.bodyStyle) {
-                    score += 50;
-                    confidence += 0.2;
-                }
+                colorScore += colorMatch * 100;
+                colorConfidence += colorMatch * 0.6;
             }
             
-            // 3. Coincidencia de colores generales
             let colorMatches = 0;
             for (const color of dominantColors) {
                 if (traits.colors.includes(color)) {
                     colorMatches++;
-                    score += 25;
+                    colorScore += 30;
                 }
             }
             if (colorMatches > 0) {
-                confidence += (colorMatches / dominantColors.length) * 0.15;
+                colorConfidence += (colorMatches / dominantColors.length) * 0.3;
             }
             
-            // 4. Coincidencia de categoría
-            for (const shape of detectedShapes) {
-                if (traits.category === shape || traits.shape?.includes(shape)) {
-                    score += 40;
-                    confidence += 0.1;
-                    matchDetails.push('categoria');
-                    break;
-                }
+            // === SILUETA (40% del score) ===
+            let silhouetteScore = 0;
+            let silhouetteConfidence = 0;
+            
+            if (silhouetteFeatures) {
+                silhouetteScore = this.compareSilhouette(silhouetteFeatures, traits);
+                silhouetteConfidence = Math.min(0.4, silhouetteScore / 200); // Max 40%
             }
             
-            // 5. Bonus por tipo seleccionado
+            // === COMBINACIÓN ===
+            const totalScore = colorScore + silhouetteScore;
+            const totalConfidence = colorConfidence + silhouetteConfidence;
+            
+            // Bonus adicionales
+            if (detectedShapes.includes(traits.bodyStyle)) {
+                totalScore += 50;
+                totalConfidence += 0.1;
+            }
+            
             if (this.selectedType !== 'all' && pokemon.types.includes(this.selectedType)) {
-                score += 30;
-                confidence += 0.05;
+                totalScore += 20;
+                totalConfidence += 0.05;
             }
             
-            // Umbral de confianza mínima (70% para reconocimiento "exacto")
-            const minConfidence = specificFeatures?.confidenceThreshold || 0.65;
-            
-            if (confidence >= minConfidence && score > highestScore) {
-                highestScore = score;
-                bestConfidence = confidence;
+            // Umbral mínimo del 50% de confianza
+            if (totalConfidence >= 0.50 && totalScore > highestScore) {
+                highestScore = totalScore;
+                bestConfidence = totalConfidence;
                 bestMatch = pokemon;
             }
         }
         
-        // Log para debugging
-        console.log('Mejor coincidencia:', bestMatch?.name, 'Confianza:', bestConfidence);
+        console.log('Mejor coincidencia:', bestMatch?.name, 'Confianza:', bestConfidence?.toFixed(2));
         
         return bestMatch;
     }
     
-    findBestPossibleMatch(predictions, dominantColors) {
-        // Siempre devuelve el Pokémon con mayor score basado en FORMA
+    findBestPossibleMatch(predictions, dominantColors, silhouetteFeatures) {
+        // Siempre devuelve el Pokémon con mayor score basado en COLOR + SILUETA
         let bestMatch = null;
         let highestScore = -1;
         
@@ -354,33 +529,31 @@ class PokedexApp {
             let score = 0;
             const traits = pokemon.visualTraits;
             
-            // PRIORIDAD: Coincidencia de forma (bodyStyle)
-            if (detectedShapes.includes(traits.bodyStyle)) score += 100;
-            
-            // Secundario: coincidencia de categoría/shape
-            for (const shape of detectedShapes) {
-                if (traits.category === shape || traits.shape?.includes(shape)) {
-                    score += 50;
-                }
-            }
-            
-            // Características específicas
+            // COLOR (60%)
             const specificFeatures = shapeDB.pokemonSpecificFeatures[pokemon.name];
             if (specificFeatures) {
                 const colorMatch = shapeDB.calculateColorSimilarity(
                     dominantColors, 
                     specificFeatures.colorSignature
                 );
-                score += colorMatch * 80;
+                score += colorMatch * 60;
             }
             
-            // Terciario: colores
             for (const color of dominantColors) {
-                if (traits.colors.includes(color)) score += 20;
+                if (traits.colors.includes(color)) score += 15;
             }
+            
+            // SILUETA (40%)
+            if (silhouetteFeatures) {
+                const silhouetteScore = this.compareSilhouette(silhouetteFeatures, traits);
+                score += silhouetteScore * 0.4;
+            }
+            
+            // Bonus de forma
+            if (detectedShapes.includes(traits.bodyStyle)) score += 40;
             
             if (this.selectedType !== 'all' && pokemon.types.includes(this.selectedType)) {
-                score += 25;
+                score += 20;
             }
             
             if (score > highestScore) {
@@ -389,7 +562,7 @@ class PokedexApp {
             }
         }
         
-        // Fallback por colores si no hay match por forma
+        // Fallback por colores si no hay match
         if (!bestMatch && dominantColors.length > 0) {
             for (const pokemon of POKEMON_DATABASE) {
                 let colorScore = 0;
