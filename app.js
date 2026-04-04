@@ -152,9 +152,15 @@ class PokedexApp {
                 this.displayPokemon(detectedPokemon);
                 this.speakPokemonFound(detectedPokemon);
             } else {
-                // Si no hay coincidencia clara, mostrar mensaje de no reconocido
-                this.updateStatus('No se pudo identificar un Pokémon. Intenta con otro objeto o mejor iluminación.');
-                this.speak('No se pudo identificar un Pokémon. Intenta nuevamente.');
+                // Si no hay coincidencia fuerte, usar el mejor match posible
+                const fallbackPokemon = this.findBestPossibleMatch(predictions, dominantColors);
+                if (fallbackPokemon) {
+                    this.displayPokemon(fallbackPokemon);
+                    this.speakPokemonFound(fallbackPokemon);
+                } else {
+                    this.updateStatus('No se pudo identificar. Intenta con mejor iluminación.');
+                    this.speak('No se pudo identificar un Pokémon. Intenta nuevamente.');
+                }
             }
             
         } catch (error) {
@@ -289,10 +295,93 @@ class PokedexApp {
                 score += 25;
             }
             
-            // Actualizar mejor coincidencia
-            if (score > highestScore && score >= 40) {
+            // Actualizar mejor coincidencia (con umbral más bajo de 25)
+            if (score > highestScore && score >= 25) {
                 highestScore = score;
                 bestMatch = pokemon;
+            }
+        }
+        
+        return bestMatch;
+    }
+    
+    findBestPossibleMatch(predictions, dominantColors) {
+        // Siempre devuelve el Pokémon con mayor score, sin importar cuán bajo sea
+        let bestMatch = null;
+        let highestScore = -1;
+        
+        const categoryMapping = {
+            'cat': ['cat', 'feline', 'kitten'],
+            'dog': ['dog', 'canine', 'puppy', 'wolf', 'fox'],
+            'turtle': ['turtle', 'tortoise', 'shell'],
+            'lizard': ['lizard', 'reptile', 'gecko'],
+            'dragon': ['dragon', 'dinosaur'],
+            'snake': ['snake', 'serpent'],
+            'fish': ['fish', 'aquatic', 'sea', 'ocean'],
+            'butterfly': ['butterfly', 'moth', 'insect'],
+            'mouse': ['mouse', 'rat', 'rodent'],
+            'elephant': ['elephant', 'large mammal'],
+            'bird': ['bird', 'duck', 'chicken', 'penguin', 'falcon', 'eagle'],
+            'seal': ['seal', 'sea lion', 'walrus'],
+            'monkey': ['monkey', 'ape', 'primate'],
+            'horse': ['horse', 'pony', 'stallion'],
+            'crab': ['crab', 'lobster', 'crustacean'],
+            'bat': ['bat'],
+            'plant': ['plant', 'flower', 'tree'],
+            'ball': ['ball', 'sphere'],
+            'rock': ['rock', 'stone', 'mountain']
+        };
+        
+        const detectedCategories = [];
+        for (const prediction of predictions) {
+            const className = prediction.className.toLowerCase();
+            for (const [category, keywords] of Object.entries(categoryMapping)) {
+                if (keywords.some(keyword => className.includes(keyword))) {
+                    detectedCategories.push(category);
+                }
+            }
+        }
+        
+        for (const pokemon of POKEMON_DATABASE) {
+            let score = 0;
+            const traits = pokemon.visualTraits;
+            
+            if (detectedCategories.includes(traits.category)) score += 50;
+            for (const category of detectedCategories) {
+                if (traits.shape.includes(category)) score += 30;
+            }
+            for (const color of dominantColors) {
+                if (traits.colors.includes(color)) score += 20;
+            }
+            if (this.selectedType !== 'all' && pokemon.types.includes(this.selectedType)) {
+                score += 25;
+            }
+            
+            if (score > highestScore) {
+                highestScore = score;
+                bestMatch = pokemon;
+            }
+        }
+        
+        // Si ningún Pokémon tuvo puntaje, elegir por colores dominantes
+        if (!bestMatch && dominantColors.length > 0) {
+            for (const pokemon of POKEMON_DATABASE) {
+                let colorScore = 0;
+                for (const color of dominantColors.slice(0, 3)) {
+                    if (pokemon.visualTraits.colors.includes(color)) colorScore++;
+                }
+                if (colorScore > 0 && (!bestMatch || colorScore > highestScore)) {
+                    highestScore = colorScore;
+                    bestMatch = pokemon;
+                }
+            }
+        }
+        
+        // Último recurso: elegir por tipo seleccionado
+        if (!bestMatch && this.selectedType !== 'all') {
+            const typePokemon = getPokemonByType(this.selectedType);
+            if (typePokemon.length > 0) {
+                bestMatch = typePokemon[Math.floor(Math.random() * typePokemon.length)];
             }
         }
         
@@ -351,28 +440,77 @@ class PokedexApp {
     
     speak(text) {
         if ('speechSynthesis' in window) {
-            // Cancelar cualquier speech anterior
             window.speechSynthesis.cancel();
             
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'es-ES';
-            utterance.rate = 0.9;
-            utterance.pitch = 1.0;
-            utterance.volume = 1;
             
-            // Intentar encontrar una voz española
+            // Configuración tipo Pokédex (voz robótica/femenina)
+            utterance.rate = 0.75;      // Más lento, pausado
+            utterance.pitch = 0.85;     // Un poco más grave (efecto robótico)
+            utterance.volume = 0.9;
+            
             const voices = window.speechSynthesis.getVoices();
-            const spanishVoice = voices.find(voice => 
-                voice.lang.startsWith('es') || voice.name.includes('Spanish')
-            );
             
-            if (spanishVoice) {
-                utterance.voice = spanishVoice;
+            // Prioridad de voces: femeninas españolas primero (tipo Pokédex)
+            const pokedexVoice = voices.find(v => 
+                (v.name.includes('Monica') || v.name.includes('Helena') || 
+                 v.name.includes('Sabina') || v.name.includes('Google Español') ||
+                 v.name.includes('Microsoft Helena') || v.name.includes('Microsoft Laura')) &&
+                v.lang.startsWith('es')
+            ) || voices.find(v => 
+                v.lang.startsWith('es') && v.name.includes('Female')
+            ) || voices.find(v => 
+                v.lang.startsWith('es')
+            ) || voices.find(v => 
+                v.lang.startsWith('en') && (v.name.includes('Google US English') || v.name.includes('Samantha'))
+            ) || voices[0];
+            
+            if (pokedexVoice) {
+                utterance.voice = pokedexVoice;
             }
             
-            window.speechSynthesis.speak(utterance);
+            // Efecto de "beep" inicial tipo Pokédex
+            this.playPokedexBeep();
+            
+            // Pequeña pausa antes de hablar (como la Pokédex real)
+            setTimeout(() => {
+                window.speechSynthesis.speak(utterance);
+            }, 400);
         } else {
             console.log('Síntesis de voz no soportada');
+        }
+    }
+    
+    playPokedexBeep() {
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Sonido característico "beep-beep" de la Pokédex
+            const playBeep = (freq, start, duration) => {
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+                
+                osc.frequency.setValueAtTime(freq, audioContext.currentTime + start);
+                osc.type = 'sine';
+                
+                gain.gain.setValueAtTime(0, audioContext.currentTime + start);
+                gain.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + start + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + start + duration);
+                
+                osc.start(audioContext.currentTime + start);
+                osc.stop(audioContext.currentTime + start + duration);
+            };
+            
+            // Beep-beep característico (como en el anime)
+            playBeep(1200, 0, 0.15);
+            playBeep(1200, 0.2, 0.15);
+            
+        } catch (error) {
+            console.log('Audio no soportado');
         }
     }
     
