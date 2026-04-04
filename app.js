@@ -499,38 +499,40 @@ class PokedexApp {
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'es-ES';
             
-            // Configuración tipo Pokédex (voz robótica/femenina)
-            utterance.rate = 0.75;      // Más lento, pausado
-            utterance.pitch = 0.85;     // Un poco más grave (efecto robótico)
-            utterance.volume = 0.9;
+            // Configuración tipo Pokédex ANIME (voz robótica aguda)
+            utterance.rate = 0.70;      // Más lento, muy pausado
+            utterance.pitch = 1.30;     // AGUDO - efecto robótico característico
+            utterance.volume = 0.95;
             
             const voices = window.speechSynthesis.getVoices();
             
-            // Prioridad de voces: femeninas españolas primero (tipo Pokédex)
+            // Prioridad: voces femeninas agudas tipo robótico
+            // Zira (Windows) o Google US English son las mejores para efecto robótico
             const pokedexVoice = voices.find(v => 
-                (v.name.includes('Monica') || v.name.includes('Helena') || 
-                 v.name.includes('Sabina') || v.name.includes('Google Español') ||
-                 v.name.includes('Microsoft Helena') || v.name.includes('Microsoft Laura')) &&
+                v.name.includes('Zira') && v.lang.startsWith('en')
+            ) || voices.find(v => 
+                v.name.includes('Google US English') && v.lang.startsWith('en')
+            ) || voices.find(v => 
+                v.name.includes('Samantha') && v.lang.startsWith('en')
+            ) || voices.find(v => 
+                v.name.includes('Microsoft Helena') && v.lang.startsWith('es')
+            ) || voices.find(v => 
+                v.name.includes('Google Español')
+            ) || voices.find(v => 
                 v.lang.startsWith('es')
-            ) || voices.find(v => 
-                v.lang.startsWith('es') && v.name.includes('Female')
-            ) || voices.find(v => 
-                v.lang.startsWith('es')
-            ) || voices.find(v => 
-                v.lang.startsWith('en') && (v.name.includes('Google US English') || v.name.includes('Samantha'))
             ) || voices[0];
             
             if (pokedexVoice) {
                 utterance.voice = pokedexVoice;
             }
             
-            // Efecto de "beep" inicial tipo Pokédex
+            // Efecto beep-beep tipo Pokédex ANIME (más agudo)
             this.playPokedexBeep();
             
-            // Pequeña pausa antes de hablar (como la Pokédex real)
+            // Pausa más larga antes de hablar (como la Pokédex real)
             setTimeout(() => {
                 window.speechSynthesis.speak(utterance);
-            }, 400);
+            }, 600);
         } else {
             console.log('Síntesis de voz no soportada');
         }
@@ -540,28 +542,30 @@ class PokedexApp {
         try {
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
             
-            // Sonido característico "beep-beep" de la Pokédex
-            const playBeep = (freq, start, duration) => {
+            // Sonido característico "Ding-Ding" de la Pokédex ANIME
+            const playBeep = (freq, start, duration, vol = 0.2) => {
                 const osc = audioContext.createOscillator();
                 const gain = audioContext.createGain();
                 
                 osc.connect(gain);
                 gain.connect(audioContext.destination);
                 
+                // Tono más agudo tipo Pokédex
                 osc.frequency.setValueAtTime(freq, audioContext.currentTime + start);
-                osc.type = 'sine';
+                osc.type = 'square'; // Onda cuadrada = más robótico
                 
+                // Envolvente más pronunciada
                 gain.gain.setValueAtTime(0, audioContext.currentTime + start);
-                gain.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + start + 0.01);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + start + duration);
+                gain.gain.linearRampToValueAtTime(vol, audioContext.currentTime + start + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + start + duration);
                 
                 osc.start(audioContext.currentTime + start);
                 osc.stop(audioContext.currentTime + start + duration);
             };
             
-            // Beep-beep característico (como en el anime)
-            playBeep(1200, 0, 0.15);
-            playBeep(1200, 0.2, 0.15);
+            // Beep-beep característico de la Pokédex (frecuencias más altas)
+            playBeep(1500, 0, 0.12, 0.25);      // Primer beep agudo
+            playBeep(1500, 0.18, 0.12, 0.25);   // Segundo beep agudo
             
         } catch (error) {
             console.log('Audio no soportado');
