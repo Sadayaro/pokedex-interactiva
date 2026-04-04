@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokédex Interactiva</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- TensorFlow.js y MobileNet -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@latest"></script>
+</head>
+<body>
+    <div class="pokedex-container">
+        <!-- Parte izquierda de la Pokédex -->
+        <div class="pokedex-left">
+            <div class="pokedex-header">
+                <div class="main-light"></div>
+                <div class="small-light red"></div>
+                <div class="small-light yellow"></div>
+                <div class="small-light green"></div>
+            </div>
+            
+            <div class="screen-container">
+                <div class="screen-header">
+                    <div class="power-led"></div>
+                    <div class="camera-icon">📷</div>
+                </div>
+                <div class="main-screen">
+                    <video id="camera" autoplay playsinline></video>
+                    <canvas id="capture-canvas" style="display: none;"></canvas>
+                    <img id="pokemon-image" style="display: none;" alt="Pokémon">
+                    <div id="scanning-effect" class="scanning-line" style="display: none;"></div>
+                    <div id="loading" class="loading" style="display: none;">
+                        <div class="spinner"></div>
+                        <p>Analizando...</p>
+                    </div>
+                </div>
+                <div class="screen-footer">
+                    <div class="speaker-light"></div>
+                    <div class="speaker-grill">
+                        <div></div><div></div><div></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="controls-left">
+                <div class="d-pad">
+                    <button class="d-up">▲</button>
+                    <button class="d-left">◀</button>
+                    <button class="d-center">●</button>
+                    <button class="d-right">▶</button>
+                    <button class="d-down">▼</button>
+                </div>
+                <div class="action-buttons">
+                    <button id="btn-camera" class="btn-blue">CÁMARA</button>
+                    <button id="btn-scan" class="btn-red">SCAN</button>
+                </div>
+                <div class="green-screen">
+                    <p id="status-text">Sistema listo</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bisagra -->
+        <div class="hinge">
+            <div class="hinge-line"></div>
+            <div class="hinge-line"></div>
+        </div>
+        
+        <!-- Parte derecha de la Pokédex -->
+        <div class="pokedex-right">
+            <div class="info-screen">
+                <h2 id="pokemon-name">Esperando...</h2>
+                <div id="pokemon-info" class="info-content">
+                    <p class="instruction">Apunta la cámara a un Pokémon y presiona SCAN</p>
+                </div>
+                <div id="pokemon-details" style="display: none;">
+                    <div class="detail-row">
+                        <span class="label">Tipo:</span>
+                        <span id="pokemon-type" class="value"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Altura:</span>
+                        <span id="pokemon-height" class="value"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Peso:</span>
+                        <span id="pokemon-weight" class="value"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Habilidad:</span>
+                        <span id="pokemon-ability" class="value"></span>
+                    </div>
+                    <div class="description-box">
+                        <p id="pokemon-description"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="type-buttons">
+                <button class="type-btn" data-type="all">TODOS</button>
+                <button class="type-btn" data-type="fire">FUEGO</button>
+                <button class="type-btn" data-type="water">AGUA</button>
+                <button class="type-btn" data-type="grass">PLANTA</button>
+                <button class="type-btn" data-type="electric">ELÉCTRICO</button>
+                <button class="type-btn" data-type="psychic">PSÍQUICO</button>
+                <button class="type-btn" data-type="ice">HIELO</button>
+                <button class="type-btn" data-type="dragon">DRAGÓN</button>
+                <button class="type-btn" data-type="dark">SINIESTRO</button>
+                <button class="type-btn" data-type="fairy">HADA</button>
+            </div>
+            
+            <div class="controls-right">
+                <div class="black-buttons">
+                    <button id="btn-info" class="black-btn">INFO</button>
+                    <button id="btn-voice" class="black-btn">VOZ 🔊</button>
+                </div>
+                <div class="num-pad">
+                    <button class="num-btn">1</button>
+                    <button class="num-btn">2</button>
+                    <button class="num-btn">3</button>
+                    <button class="num-btn">4</button>
+                    <button class="num-btn">5</button>
+                    <button class="num-btn">6</button>
+                    <button class="num-btn">7</button>
+                    <button class="num-btn">8</button>
+                    <button class="num-btn">9</button>
+                    <button class="num-btn">0</button>
+                </div>
+                <div class="bottom-controls">
+                    <div class="led-indicators">
+                        <div class="led led-1"></div>
+                        <div class="led led-2"></div>
+                    </div>
+                    <button id="btn-search" class="search-btn">BUSCAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="start-overlay" class="start-overlay">
+        <div class="start-content">
+            <h1>📱 Pokédex Interactiva</h1>
+            <p>Reconocimiento de Pokémon por cámara con voz</p>
+            <button id="btn-start" class="start-btn">INICIAR POKÉDEX</button>
+            <p class="small-text">Se requiere acceso a cámara y micrófono</p>
+        </div>
+    </div>
+    
+    <script src="pokemon-data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
