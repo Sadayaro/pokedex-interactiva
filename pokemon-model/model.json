@@ -17,7 +17,7 @@
           "module": "keras.layers",
           "class_name": "InputLayer",
           "config": {
-            "batch_shape": [
+            "batchInputShape": [
               null,
               224,
               224,
@@ -42,7 +42,7 @@
                 "module": "keras.layers",
                 "class_name": "InputLayer",
                 "config": {
-                  "batch_shape": [
+                  "batchInputShape": [
                     null,
                     224,
                     224,
@@ -11961,7 +11961,10 @@
   "weightsManifest": [
     {
       "paths": [
-        "weights.bin"
+        "group0-shard1of1.bin",
+        "group1-shard1of1.bin",
+        "group2-shard1of1.bin",
+        "group3-shard1of1.bin"
       ],
       "weights": [
         {
@@ -13972,5 +13975,8 @@
         }
       ]
     }
-  ]
+  ],
+  "format": "layers-model",
+  "generatedBy": "keras2tfjs",
+  "convertedBy": "convert_fixed.py"
 }
