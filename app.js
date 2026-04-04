@@ -607,9 +607,10 @@ class PokedexApp {
         document.getElementById('pokemon-ability').textContent = pokemon.ability;
         document.getElementById('pokemon-description').textContent = pokemon.description;
         
-        // Mostrar imagen del Pokémon detectado
+        // Mostrar imagen del Pokémon detectado usando imagen oficial de Pokemon.com
         const pokemonImage = document.getElementById('pokemon-image');
-        pokemonImage.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`;
+        const formattedId = String(pokemon.id).padStart(3, '0');
+        pokemonImage.src = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${formattedId}.png`;
         pokemonImage.style.display = 'block';
         pokemonImage.classList.add('pokemon-found');
         this.video.style.display = 'none';
