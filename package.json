@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "@tensorflow/tfjs-converter": "^4.22.0"
+  }
+}

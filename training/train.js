@@ -6,7 +6,7 @@
 const tf = require('@tensorflow/tfjs-node');
 const fs = require('fs-extra');
 const path = require('path');
-const { createCanvas, loadImage } = require('canvas');
+const sharp = require('sharp');
 
 const DATASET_DIR = './dataset';
 const MODEL_DIR = './model';
@@ -18,19 +18,16 @@ const VALIDATION_SPLIT = 0.2;
 
 // Cargar y preprocesar imagen
 async function loadAndPreprocessImage(imagePath) {
-  const image = await loadImage(imagePath);
-  const canvas = createCanvas(IMAGE_SIZE, IMAGE_SIZE);
-  const ctx = canvas.getContext('2d');
+  // Usar sharp para redimensionar y procesar imagen
+  const buffer = await sharp(imagePath)
+    .resize(IMAGE_SIZE, IMAGE_SIZE, { fit: 'fill' })
+    .raw()
+    .toBuffer();
   
-  // Redimensionar manteniendo proporción
-  ctx.drawImage(image, 0, 0, IMAGE_SIZE, IMAGE_SIZE);
-  
-  // Convertir a tensor
-  const imageData = ctx.getImageData(0, 0, IMAGE_SIZE, IMAGE_SIZE);
-  const tensor = tf.browser.fromPixels(imageData)
-    .toFloat()
-    .div(255.0) // Normalizar
-    .expandDims(0);
+  // Convertir a tensor [224, 224, 3]
+  const tensor = tf.tensor3d(buffer, [IMAGE_SIZE, IMAGE_SIZE, 3])
+    .div(255.0) // Normalizar a 0-1
+    .expandDims(0); // Añadir batch dimension
   
   return tensor;
 }
