@@ -232,71 +232,106 @@ class PokedexApp {
         let bestMatch = null;
         let highestScore = 0;
         
-        // Palabras clave de MobileNet a categorías de Pokémon
-        const categoryMapping = {
-            'cat': ['cat', 'feline', 'kitten'],
-            'dog': ['dog', 'canine', 'puppy', 'wolf', 'fox'],
-            'turtle': ['turtle', 'tortoise', 'shell'],
-            'lizard': ['lizard', 'reptile', 'gecko'],
-            'dragon': ['dragon', 'dinosaur'],
-            'snake': ['snake', 'serpent'],
-            'fish': ['fish', 'aquatic', 'sea', 'ocean'],
-            'butterfly': ['butterfly', 'moth', 'insect'],
-            'mouse': ['mouse', 'rat', 'rodent'],
-            'elephant': ['elephant', 'large mammal'],
-            'bird': ['bird', 'duck', 'chicken', 'penguin', 'falcon', 'eagle'],
-            'seal': ['seal', 'sea lion', 'walrus'],
-            'monkey': ['monkey', 'ape', 'primate'],
-            'horse': ['horse', 'pony', 'stallion'],
-            'crab': ['crab', 'lobster', 'crustacean'],
-            'bat': ['bat'],
-            'plant': ['plant', 'flower', 'tree'],
-            'ball': ['ball', 'sphere'],
-            'rock': ['rock', 'stone', 'mountain']
+        // Mapeo de formas detectadas por MobileNet a bodyStyle de Pokémon (en español)
+        const shapeMapping = {
+            // Cuadrúpedos
+            'cuadrupedo_canino': ['dog', 'canine', 'puppy', 'wolf', 'fox', 'jackal'],
+            'cuadrupedo_felino': ['cat', 'feline', 'kitten', 'tiger', 'lion'],
+            'cuadrupedo_caballo': ['horse', 'pony', 'stallion', 'mare', 'foal'],
+            'cuadrupedo_roedor': ['mouse', 'rat', 'rodent', 'squirrel', 'chipmunk'],
+            'cuadrupedo_grande': ['elephant', 'hippopotamus', 'rhinoceros', 'buffalo', 'bison'],
+            'cuadrupedo_redondo': ['seal', 'sea lion', 'walrus', 'manatee'],
+            
+            // Bípedos
+            'bipedo_redondo': ['bear', 'panda', 'teddy', 'koala'],
+            'bipedo_mono': ['monkey', 'ape', 'primate', 'gorilla', 'chimpanzee', 'orangutan'],
+            'bipedo_musculoso': ['bodybuilder', 'wrestler', 'athlete'],
+            'bipedo_piernas': ['stilt', 'long legs'],
+            'bipedo_con_alas': ['angel', 'harpy'],
+            
+            // Alas completas
+            'alas_completas': ['bird', 'duck', 'chicken', 'penguin', 'falcon', 'eagle', 'hawk', 'owl', 'parrot', 'swan', 'goose', 'turkey'],
+            'pajaro_pequeno': ['sparrow', 'finch', 'robin', 'bluebird', 'hummingbird'],
+            'pajaro_grande': ['eagle', 'hawk', 'vulture', 'condor'],
+            
+            // Serpientes y similares
+            'serpiente': ['snake', 'serpent', 'python', 'cobra', 'viper'],
+            
+            // Caparazones
+            'caparazon': ['turtle', 'tortoise', 'shell', 'crustacean', 'crab', 'lobster', 'shrimp'],
+            'caparazon_redondo': ['turtle', 'tortoise', 'terrapin'],
+            
+            // Insectos
+            'multiple_patas': ['insect', 'bug', 'beetle', 'ant', 'spider', 'scorpion'],
+            'gusano_segmentado': ['caterpillar', 'worm', 'centipede', 'millipede'],
+            
+            // Cabezas
+            'cabeza_sola': ['skull', 'head', 'mask', 'helmet'],
+            'cabeza_con_patas': ['octopus', 'squid', 'jellyfish', 'starfish'],
+            'cabeza_con_brazos': ['ball', 'sphere', 'orb', 'planet'],
+            
+            // Plantas
+            'planta_tallo': ['plant', 'flower', 'tree', 'cactus', 'palm'],
+            'planta_flor': ['flower', 'bloom', 'blossom', 'rose', 'daisy'],
+            
+            // Tentáculos
+            'tentaculos': ['jellyfish', 'octopus', 'squid', 'anemone', 'coral'],
+            
+            // Esferas
+            'esfera': ['ball', 'sphere', 'globe', 'orb', 'planet', 'moon'],
+            
+            // Capullos
+            'capullo': ['cocoon', 'chrysalis', 'pupa'],
+            
+            // Aletas
+            'aletas': ['fish', 'shark', 'dolphin', 'whale', 'seal', 'sea lion'],
+            
+            // Desconocido/Amorfo
+            'desconocido': ['blob', 'amoeba', 'slime', 'ghost', 'spirit']
         };
         
-        // Obtener categorías detectadas por MobileNet
-        const detectedCategories = [];
+        // Obtener formas detectadas por MobileNet
+        const detectedShapes = [];
         for (const prediction of predictions) {
             const className = prediction.className.toLowerCase();
-            for (const [category, keywords] of Object.entries(categoryMapping)) {
+            for (const [shape, keywords] of Object.entries(shapeMapping)) {
                 if (keywords.some(keyword => className.includes(keyword))) {
-                    detectedCategories.push(category);
+                    detectedShapes.push(shape);
                 }
             }
         }
         
-        // Evaluar cada Pokémon
+        // Evaluar cada Pokémon por FORMA (bodyStyle) como criterio principal
         for (const pokemon of POKEMON_DATABASE) {
             let score = 0;
             const traits = pokemon.visualTraits;
             
-            // Puntaje por coincidencia de categoría
-            if (detectedCategories.includes(traits.category)) {
-                score += 50;
+            // CRITERIO PRINCIPAL: Coincidencia de forma (bodyStyle) - 100 puntos
+            if (detectedShapes.includes(traits.bodyStyle)) {
+                score += 100;
             }
             
-            // Puntaje por coincidencia de categoría relacionada
-            for (const category of detectedCategories) {
-                if (traits.shape.includes(category)) {
-                    score += 30;
+            // CRITERIO SECUNDARIO: Coincidencia de categoría - 50 puntos
+            for (const shape of detectedShapes) {
+                if (traits.category === shape || traits.shape.includes(shape)) {
+                    score += 50;
                 }
             }
             
-            // Puntaje por coincidencia de colores
+            // CRITERIO TERCERARIO: Coincidencia de colores - 20 puntos
             for (const color of dominantColors) {
                 if (traits.colors.includes(color)) {
                     score += 20;
                 }
             }
             
-            // Bonus por tipos de filtro seleccionado
+            // Bonus por tipos de filtro seleccionado - 25 puntos
             if (this.selectedType !== 'all' && pokemon.types.includes(this.selectedType)) {
                 score += 25;
             }
             
-            // Actualizar mejor coincidencia (con umbral más bajo de 25)
-            if (score > highestScore && score >= 25) {
+            // Actualizar mejor coincidencia
+            if (score > highestScore && score >= 60) { // Umbral basado en forma
                 highestScore = score;
                 bestMatch = pokemon;
             }
@@ -306,38 +341,49 @@ class PokedexApp {
     }
     
     findBestPossibleMatch(predictions, dominantColors) {
-        // Siempre devuelve el Pokémon con mayor score, sin importar cuán bajo sea
+        // Siempre devuelve el Pokémon con mayor score basado en FORMA
         let bestMatch = null;
         let highestScore = -1;
         
-        const categoryMapping = {
-            'cat': ['cat', 'feline', 'kitten'],
-            'dog': ['dog', 'canine', 'puppy', 'wolf', 'fox'],
-            'turtle': ['turtle', 'tortoise', 'shell'],
-            'lizard': ['lizard', 'reptile', 'gecko'],
-            'dragon': ['dragon', 'dinosaur'],
-            'snake': ['snake', 'serpent'],
-            'fish': ['fish', 'aquatic', 'sea', 'ocean'],
-            'butterfly': ['butterfly', 'moth', 'insect'],
-            'mouse': ['mouse', 'rat', 'rodent'],
-            'elephant': ['elephant', 'large mammal'],
-            'bird': ['bird', 'duck', 'chicken', 'penguin', 'falcon', 'eagle'],
-            'seal': ['seal', 'sea lion', 'walrus'],
-            'monkey': ['monkey', 'ape', 'primate'],
-            'horse': ['horse', 'pony', 'stallion'],
-            'crab': ['crab', 'lobster', 'crustacean'],
-            'bat': ['bat'],
-            'plant': ['plant', 'flower', 'tree'],
-            'ball': ['ball', 'sphere'],
-            'rock': ['rock', 'stone', 'mountain']
+        // Mapeo de formas detectadas por MobileNet a bodyStyle de Pokémon (en español)
+        const shapeMapping = {
+            'cuadrupedo_canino': ['dog', 'canine', 'puppy', 'wolf', 'fox', 'jackal'],
+            'cuadrupedo_felino': ['cat', 'feline', 'kitten', 'tiger', 'lion'],
+            'cuadrupedo_caballo': ['horse', 'pony', 'stallion', 'mare', 'foal'],
+            'cuadrupedo_roedor': ['mouse', 'rat', 'rodent', 'squirrel', 'chipmunk'],
+            'cuadrupedo_grande': ['elephant', 'hippopotamus', 'rhinoceros', 'buffalo', 'bison'],
+            'cuadrupedo_redondo': ['seal', 'sea lion', 'walrus', 'manatee'],
+            'bipedo_redondo': ['bear', 'panda', 'teddy', 'koala'],
+            'bipedo_mono': ['monkey', 'ape', 'primate', 'gorilla', 'chimpanzee', 'orangutan'],
+            'bipedo_musculoso': ['bodybuilder', 'wrestler', 'athlete'],
+            'bipedo_piernas': ['stilt', 'long legs'],
+            'bipedo_con_alas': ['angel', 'harpy'],
+            'alas_completas': ['bird', 'duck', 'chicken', 'penguin', 'falcon', 'eagle', 'hawk', 'owl', 'parrot', 'swan', 'goose', 'turkey'],
+            'pajaro_pequeno': ['sparrow', 'finch', 'robin', 'bluebird', 'hummingbird'],
+            'pajaro_grande': ['eagle', 'hawk', 'vulture', 'condor'],
+            'serpiente': ['snake', 'serpent', 'python', 'cobra', 'viper'],
+            'caparazon': ['turtle', 'tortoise', 'shell', 'crustacean', 'crab', 'lobster', 'shrimp'],
+            'caparazon_redondo': ['turtle', 'tortoise', 'terrapin'],
+            'multiple_patas': ['insect', 'bug', 'beetle', 'ant', 'spider', 'scorpion'],
+            'gusano_segmentado': ['caterpillar', 'worm', 'centipede', 'millipede'],
+            'cabeza_sola': ['skull', 'head', 'mask', 'helmet'],
+            'cabeza_con_patas': ['octopus', 'squid', 'jellyfish', 'starfish'],
+            'cabeza_con_brazos': ['ball', 'sphere', 'orb', 'planet'],
+            'planta_tallo': ['plant', 'flower', 'tree', 'cactus', 'palm'],
+            'planta_flor': ['flower', 'bloom', 'blossom', 'rose', 'daisy'],
+            'tentaculos': ['jellyfish', 'octopus', 'squid', 'anemone', 'coral'],
+            'esfera': ['ball', 'sphere', 'globe', 'orb', 'planet', 'moon'],
+            'capullo': ['cocoon', 'chrysalis', 'pupa'],
+            'aletas': ['fish', 'shark', 'dolphin', 'whale', 'seal', 'sea lion'],
+            'desconocido': ['blob', 'amoeba', 'slime', 'ghost', 'spirit']
         };
         
-        const detectedCategories = [];
+        const detectedShapes = [];
         for (const prediction of predictions) {
             const className = prediction.className.toLowerCase();
-            for (const [category, keywords] of Object.entries(categoryMapping)) {
+            for (const [shape, keywords] of Object.entries(shapeMapping)) {
                 if (keywords.some(keyword => className.includes(keyword))) {
-                    detectedCategories.push(category);
+                    detectedShapes.push(shape);
                 }
             }
         }
@@ -346,13 +392,21 @@ class PokedexApp {
             let score = 0;
             const traits = pokemon.visualTraits;
             
-            if (detectedCategories.includes(traits.category)) score += 50;
-            for (const category of detectedCategories) {
-                if (traits.shape.includes(category)) score += 30;
+            // PRIORIDAD: Coincidencia de forma (bodyStyle)
+            if (detectedShapes.includes(traits.bodyStyle)) score += 100;
+            
+            // Secundario: coincidencia de categoría/shape
+            for (const shape of detectedShapes) {
+                if (traits.category === shape || traits.shape.includes(shape)) {
+                    score += 50;
+                }
             }
+            
+            // Terciario: colores
             for (const color of dominantColors) {
                 if (traits.colors.includes(color)) score += 20;
             }
+            
             if (this.selectedType !== 'all' && pokemon.types.includes(this.selectedType)) {
                 score += 25;
             }
@@ -363,7 +417,7 @@ class PokedexApp {
             }
         }
         
-        // Si ningún Pokémon tuvo puntaje, elegir por colores dominantes
+        // Fallback por colores si no hay match por forma
         if (!bestMatch && dominantColors.length > 0) {
             for (const pokemon of POKEMON_DATABASE) {
                 let colorScore = 0;
