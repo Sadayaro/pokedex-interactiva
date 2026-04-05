@@ -159,6 +159,41 @@
   box-shadow: none;
 }
 
+/* Voice Search Button */
+.voice-search-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+  background: linear-gradient(145deg, #00b894, #00a884);
+  color: white;
+}
+
+.voice-search-btn:hover {
+  background: linear-gradient(145deg, #00c9a4, #00b894);
+}
+
+.voice-search-btn:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+.voice-search-btn.listening {
+  background: linear-gradient(145deg, #e74c3c, #c0392b);
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
 /* Numpad Section */
 .numpad-section {
   background: #2d3436;

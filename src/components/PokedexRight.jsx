@@ -15,7 +15,7 @@ const TYPES = [
   { id: 'fairy', name: 'HADA', color: '#ee99ac' }
 ]
 
-function PokedexRight({ currentPokemon, onSpeak, onSearchById }) {
+function PokedexRight({ currentPokemon, onSpeak, onSearchById, onVoiceSearch, isListening }) {
   const [numpadInput, setNumpadInput] = useState('')
   const [selectedType, setSelectedType] = useState('all')
 
@@ -119,6 +119,13 @@ function PokedexRight({ currentPokemon, onSpeak, onSearchById }) {
         <button onClick={() => {}} className="info-btn">INFO</button>
         <button onClick={onSpeak} className="voice-btn">
           VOZ 🔊
+        </button>
+        <button 
+          onClick={onVoiceSearch} 
+          className={`voice-search-btn ${isListening ? 'listening' : ''}`}
+          title="Buscar por voz"
+        >
+          {isListening ? '🎤 Escuchando...' : '🎤 VOZ'}
         </button>
       </div>
 
