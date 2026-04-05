@@ -73,6 +73,24 @@ function PokedexRight({ currentPokemon, onSpeak, onSearchById }) {
                 <span className="info-label">Peso:</span>
                 <span>{currentPokemon.weight}</span>
               </div>
+              {currentPokemon.category && (
+                <div className="info-row">
+                  <span className="info-label">Categoría:</span>
+                  <span>{currentPokemon.category}</span>
+                </div>
+              )}
+              {currentPokemon.habitat && (
+                <div className="info-row">
+                  <span className="info-label">Hábitat:</span>
+                  <span>{currentPokemon.habitat}</span>
+                </div>
+              )}
+              {currentPokemon.weaknesses && (
+                <div className="info-row">
+                  <span className="info-label">Debilidades:</span>
+                  <span>{currentPokemon.weaknesses}</span>
+                </div>
+              )}
               <p className="pokemon-description">{currentPokemon.description}</p>
             </div>
           </>

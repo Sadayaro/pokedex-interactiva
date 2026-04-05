@@ -5,6 +5,7 @@ import ModelPanel from './components/ModelPanel'
 import StartOverlay from './components/StartOverlay'
 import { loadMobileNet, loadPokemonModel } from './hooks/useModel'
 import { pokemonData } from './data/pokemonData'
+import pokedexVoice from './utils/pokedexVoice'
 import './styles/App.css'
 
 function App() {
@@ -66,21 +67,8 @@ function App() {
       streamRef.current = stream
       setIsStarted(true)
       
-      // Welcome message with Pokedex-style robotic voice
-      const welcomeUtterance = new SpeechSynthesisUtterance('Pokédex activada. Sistema listo para escanear Pokémon.')
-      welcomeUtterance.lang = 'es-ES'
-      welcomeUtterance.rate = 0.85
-      welcomeUtterance.pitch = 0.6
-      welcomeUtterance.volume = 1
-      
-      // Try to find a male/robotic voice
-      const voices = window.speechSynthesis.getVoices()
-      const roboticVoice = voices.find(v => v.name.includes('Google español') || v.name.includes('Diego') || v.name.includes('Carlos'))
-      if (roboticVoice) {
-        welcomeUtterance.voice = roboticVoice
-      }
-      
-      speechSynthesis.speak(welcomeUtterance)
+      // Welcome message with Pokedex metallic voice
+      pokedexVoice.speakWelcome()
     } catch (error) {
       console.error('Camera error:', error)
       alert('No se pudo acceder a la cámara')
@@ -152,21 +140,8 @@ function App() {
         setCurrentPokemon(pokemon)
         setStatus(`${pokemon.name} encontrado!`)
         
-        // Speak result with Pokedex-style robotic voice
-        const pokedexUtterance = new SpeechSynthesisUtterance(`Pokémon identificado: ${pokemon.name}. ${pokemon.type}. ${pokemon.description}`)
-        pokedexUtterance.lang = 'es-ES'
-        pokedexUtterance.rate = 0.8
-        pokedexUtterance.pitch = 0.65
-        pokedexUtterance.volume = 1
-        
-        // Try to find a male/robotic voice
-        const voices = window.speechSynthesis.getVoices()
-        const roboticVoice = voices.find(v => v.name.includes('Google español') || v.name.includes('Diego') || v.name.includes('Carlos'))
-        if (roboticVoice) {
-          pokedexUtterance.voice = roboticVoice
-        }
-        
-        speechSynthesis.speak(pokedexUtterance)
+        // Speak result with Pokedex metallic voice
+        pokedexVoice.speakPokedexEntry(pokemon.name, pokemon.type, pokemon.description)
       }
     } catch (error) {
       console.error('Scan error:', error)
@@ -184,25 +159,14 @@ function App() {
     }
   }, [])
 
-  // Speak current pokemon with Pokedex-style robotic voice
+  // Speak current pokemon with Pokedex metallic voice
   const speakPokemon = useCallback(() => {
     if (currentPokemon) {
-      const pokedexVoice = new SpeechSynthesisUtterance(
-        `Pokémon: ${currentPokemon.name}. Tipo: ${currentPokemon.type}. ${currentPokemon.description}`
+      pokedexVoice.speakPokedexEntry(
+        currentPokemon.name,
+        currentPokemon.type,
+        currentPokemon.description
       )
-      pokedexVoice.lang = 'es-ES'
-      pokedexVoice.rate = 0.85
-      pokedexVoice.pitch = 0.65
-      pokedexVoice.volume = 1
-      
-      // Try to find a male/robotic voice
-      const voices = window.speechSynthesis.getVoices()
-      const roboticVoice = voices.find(v => v.name.includes('Google español') || v.name.includes('Diego') || v.name.includes('Carlos'))
-      if (roboticVoice) {
-        pokedexVoice.voice = roboticVoice
-      }
-      
-      speechSynthesis.speak(pokedexVoice)
     }
   }, [currentPokemon])
 
