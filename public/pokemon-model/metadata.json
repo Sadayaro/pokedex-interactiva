@@ -1,0 +1,85 @@
+{
+  "version": "1.0.0",
+  "modelName": "Pokedex CNN",
+  "description": "Modelo CNN para clasificación de Pokémon",
+  "numClasses": 15,
+  "imageSize": 224,
+  "classes": [
+    {
+      "index": 0,
+      "pokemonId": 1,
+      "name": "Bulbasaur"
+    },
+    {
+      "index": 1,
+      "pokemonId": 2,
+      "name": "Ivysaur"
+    },
+    {
+      "index": 2,
+      "pokemonId": 3,
+      "name": "Venusaur"
+    },
+    {
+      "index": 3,
+      "pokemonId": 4,
+      "name": "Charmander"
+    },
+    {
+      "index": 4,
+      "pokemonId": 5,
+      "name": "Charmeleon"
+    },
+    {
+      "index": 5,
+      "pokemonId": 6,
+      "name": "Charizard"
+    },
+    {
+      "index": 6,
+      "pokemonId": 7,
+      "name": "Squirtle"
+    },
+    {
+      "index": 7,
+      "pokemonId": 8,
+      "name": "Wartortle"
+    },
+    {
+      "index": 8,
+      "pokemonId": 9,
+      "name": "Blastoise"
+    },
+    {
+      "index": 9,
+      "pokemonId": 25,
+      "name": "Pikachu"
+    },
+    {
+      "index": 10,
+      "pokemonId": 26,
+      "name": "Raichu"
+    },
+    {
+      "index": 11,
+      "pokemonId": 133,
+      "name": "Eevee"
+    },
+    {
+      "index": 12,
+      "pokemonId": 143,
+      "name": "Snorlax"
+    },
+    {
+      "index": 13,
+      "pokemonId": 150,
+      "name": "Mewtwo"
+    },
+    {
+      "index": 14,
+      "pokemonId": 151,
+      "name": "Mew"
+    }
+  ],
+  "createdAt": "2026-04-05T02:13:34.467Z"
+}
