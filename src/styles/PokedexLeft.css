@@ -1,0 +1,222 @@
+.pokedex-left {
+  background: #dc0a2d;
+  padding: 20px;
+  border-radius: 20px 0 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 350px;
+}
+
+.pokedex-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.main-light {
+  width: 50px;
+  height: 50px;
+  background: radial-gradient(circle at 30% 30%, #00d9ff, #007a8a);
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 0 20px rgba(0,217,255,0.5);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.main-light:hover {
+  box-shadow: 0 0 30px rgba(0,217,255,0.8);
+}
+
+.main-light.scanning {
+  animation: pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(0,217,255,0.5); }
+  50% { box-shadow: 0 0 40px rgba(0,217,255,1); }
+}
+
+.small-light {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid rgba(0,0,0,0.2);
+}
+
+.small-light.red { background: #ff4444; box-shadow: 0 0 10px rgba(255,68,68,0.5); }
+.small-light.yellow { background: #ffdd44; box-shadow: 0 0 10px rgba(255,221,68,0.5); }
+.small-light.green { background: #44ff44; box-shadow: 0 0 10px rgba(68,255,68,0.5); }
+
+.screen-container {
+  background: #dedede;
+  padding: 15px;
+  border-radius: 10px 10px 30px 10px;
+  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+.screen-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+}
+
+.power-led {
+  width: 8px;
+  height: 8px;
+  background: #ff4444;
+  border-radius: 50%;
+  box-shadow: 0 0 5px #ff4444;
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.main-screen {
+  background: #8bac0f;
+  border: 10px solid #333;
+  border-radius: 5px;
+  aspect-ratio: 4/3;
+  position: relative;
+  overflow: hidden;
+}
+
+.main-screen video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scanning-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #00d9ff;
+  box-shadow: 0 0 10px #00d9ff;
+  animation: scan 2s linear infinite;
+}
+
+@keyframes scan {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+.screen-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.speaker-grill {
+  display: flex;
+  gap: 2px;
+}
+
+.speaker-grill div {
+  width: 3px;
+  height: 20px;
+  background: #333;
+  border-radius: 2px;
+}
+
+.controls-left {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.d-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 100px;
+  height: 100px;
+  gap: 2px;
+}
+
+.d-pad button {
+  background: #222;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.d-pad .d-up { grid-column: 2; }
+.d-pad .d-left { grid-column: 1; grid-row: 2; }
+.d-pad .d-center { grid-column: 2; grid-row: 2; }
+.d-pad .d-right { grid-column: 3; grid-row: 2; }
+.d-pad .d-down { grid-column: 2; grid-row: 3; }
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.btn-blue, .btn-red {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 20px;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.btn-blue {
+  background: #00a8cc;
+  color: white;
+  box-shadow: 0 4px 0 #007a99;
+}
+
+.btn-red {
+  background: #ff3333;
+  color: white;
+  box-shadow: 0 4px 0 #cc0000;
+}
+
+.btn-blue:active, .btn-red:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+.green-screen {
+  background: #8bac0f;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 12px;
+  color: #2d3b05;
+  border: 3px solid #6b8e23;
+  font-weight: bold;
+}
+
+.btn-model-status {
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+@media (max-width: 768px) {
+  .pokedex-left {
+    border-radius: 20px 20px 0 0;
+    min-width: 300px;
+  }
+}

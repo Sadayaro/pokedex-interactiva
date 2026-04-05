@@ -1,0 +1,161 @@
+.pokedex-right {
+  background: #dc0a2d;
+  padding: 20px;
+  border-radius: 0 20px 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 350px;
+}
+
+.info-screen {
+  background: #8bac0f;
+  padding: 20px;
+  border-radius: 10px;
+  border: 10px solid #333;
+  flex: 1;
+  min-height: 300px;
+  overflow-y: auto;
+}
+
+.info-screen h2 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  color: #2d3b05;
+  text-align: center;
+}
+
+.pokemon-image-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.pokemon-image {
+  width: 150px;
+  height: 150px;
+  image-rendering: pixelated;
+  filter: drop-shadow(3px 3px 0 rgba(0,0,0,0.3));
+}
+
+.info-content {
+  font-size: 12px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(45,59,5,0.3);
+}
+
+.detail-row .label {
+  font-weight: bold;
+  color: #2d3b05;
+}
+
+.detail-row .value {
+  color: #4a5d0a;
+}
+
+.type-badge {
+  background: #ff6b6b;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+}
+
+.description {
+  margin-top: 15px;
+  padding: 10px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 5px;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.instruction {
+  text-align: center;
+  color: #4a5d0a;
+  margin-top: 50px;
+}
+
+.numpad-container {
+  background: #2d3436;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.numpad-display {
+  background: #8bac0f;
+  padding: 10px;
+  text-align: center;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 16px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  color: #2d3b05;
+}
+
+.numpad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+
+.numpad button {
+  padding: 15px;
+  background: #636e72;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.numpad button:hover {
+  background: #74b9ff;
+}
+
+.numpad button.go-btn {
+  background: #ff3333;
+}
+
+.numpad button.go-btn:hover {
+  background: #ff6666;
+}
+
+.right-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-black {
+  flex: 1;
+  padding: 15px;
+  background: #2d3436;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 11px;
+  cursor: pointer;
+  border-bottom: 3px solid #000;
+  transition: all 0.2s;
+}
+
+.btn-black:active {
+  border-bottom: none;
+  transform: translateY(3px);
+}
+
+@media (max-width: 768px) {
+  .pokedex-right {
+    border-radius: 0 0 20px 20px;
+    min-width: 300px;
+  }
+}
