@@ -66,10 +66,21 @@ function App() {
       streamRef.current = stream
       setIsStarted(true)
       
-      // Welcome message
-      const utterance = new SpeechSynthesisUtterance('Pokédex activada. Sistema listo para escanear Pokémon.')
-      utterance.lang = 'es-ES'
-      speechSynthesis.speak(utterance)
+      // Welcome message with Pokedex-style robotic voice
+      const welcomeUtterance = new SpeechSynthesisUtterance('Pokédex activada. Sistema listo para escanear Pokémon.')
+      welcomeUtterance.lang = 'es-ES'
+      welcomeUtterance.rate = 0.85
+      welcomeUtterance.pitch = 0.6
+      welcomeUtterance.volume = 1
+      
+      // Try to find a male/robotic voice
+      const voices = window.speechSynthesis.getVoices()
+      const roboticVoice = voices.find(v => v.name.includes('Google español') || v.name.includes('Diego') || v.name.includes('Carlos'))
+      if (roboticVoice) {
+        welcomeUtterance.voice = roboticVoice
+      }
+      
+      speechSynthesis.speak(welcomeUtterance)
     } catch (error) {
       console.error('Camera error:', error)
       alert('No se pudo acceder a la cámara')
@@ -141,10 +152,21 @@ function App() {
         setCurrentPokemon(pokemon)
         setStatus(`${pokemon.name} encontrado!`)
         
-        // Speak result
-        const utterance = new SpeechSynthesisUtterance(`¡${pokemon.name}! ${pokemon.description}`)
-        utterance.lang = 'es-ES'
-        speechSynthesis.speak(utterance)
+        // Speak result with Pokedex-style robotic voice
+        const pokedexUtterance = new SpeechSynthesisUtterance(`Pokémon identificado: ${pokemon.name}. ${pokemon.type}. ${pokemon.description}`)
+        pokedexUtterance.lang = 'es-ES'
+        pokedexUtterance.rate = 0.8
+        pokedexUtterance.pitch = 0.65
+        pokedexUtterance.volume = 1
+        
+        // Try to find a male/robotic voice
+        const voices = window.speechSynthesis.getVoices()
+        const roboticVoice = voices.find(v => v.name.includes('Google español') || v.name.includes('Diego') || v.name.includes('Carlos'))
+        if (roboticVoice) {
+          pokedexUtterance.voice = roboticVoice
+        }
+        
+        speechSynthesis.speak(pokedexUtterance)
       }
     } catch (error) {
       console.error('Scan error:', error)
@@ -162,14 +184,25 @@ function App() {
     }
   }, [])
 
-  // Speak current pokemon
+  // Speak current pokemon with Pokedex-style robotic voice
   const speakPokemon = useCallback(() => {
     if (currentPokemon) {
-      const utterance = new SpeechSynthesisUtterance(
-        `${currentPokemon.name}. ${currentPokemon.type}. ${currentPokemon.description}`
+      const pokedexVoice = new SpeechSynthesisUtterance(
+        `Pokémon: ${currentPokemon.name}. Tipo: ${currentPokemon.type}. ${currentPokemon.description}`
       )
-      utterance.lang = 'es-ES'
-      speechSynthesis.speak(utterance)
+      pokedexVoice.lang = 'es-ES'
+      pokedexVoice.rate = 0.85
+      pokedexVoice.pitch = 0.65
+      pokedexVoice.volume = 1
+      
+      // Try to find a male/robotic voice
+      const voices = window.speechSynthesis.getVoices()
+      const roboticVoice = voices.find(v => v.name.includes('Google español') || v.name.includes('Diego') || v.name.includes('Carlos'))
+      if (roboticVoice) {
+        pokedexVoice.voice = roboticVoice
+      }
+      
+      speechSynthesis.speak(pokedexVoice)
     }
   }, [currentPokemon])
 
