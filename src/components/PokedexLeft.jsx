@@ -4,17 +4,20 @@ import '../styles/PokedexLeft.css'
 function PokedexLeft({ videoRef, isScanning, status, onScan, onToggleCamera, onShowModelPanel }) {
   return (
     <div className="pokedex-left">
+      {/* Header with lights */}
       <div className="pokedex-header">
         <div className="main-light"></div>
-        <div className="small-light red"></div>
-        <div className="small-light yellow"></div>
-        <div className="small-light green"></div>
+        <div className="small-lights">
+          <div className="small-light red"></div>
+          <div className="small-light yellow"></div>
+          <div className="small-light green"></div>
+        </div>
       </div>
       
+      {/* Screen container */}
       <div className="screen-container">
         <div className="screen-header">
           <div className="power-led"></div>
-          <div className="camera-icon">📷</div>
         </div>
         
         <div className="main-screen">
@@ -33,14 +36,15 @@ function PokedexLeft({ videoRef, isScanning, status, onScan, onToggleCamera, onS
         </div>
         
         <div className="screen-footer">
-          <div className="speaker-light"></div>
           <div className="speaker-grill">
-            {[1,2,3].map(i => <div key={i} />)}
+            {[1,2,3,4].map(i => <div key={i} />)}
           </div>
         </div>
       </div>
       
+      {/* Controls */}
       <div className="controls-left">
+        {/* D-Pad */}
         <div className="d-pad">
           <button className="d-up">▲</button>
           <button className="d-left">◀</button>
@@ -49,26 +53,24 @@ function PokedexLeft({ videoRef, isScanning, status, onScan, onToggleCamera, onS
           <button className="d-down">▼</button>
         </div>
         
+        {/* Action buttons */}
         <div className="action-buttons">
-          <button onClick={onToggleCamera} className="btn-blue">
+          <button onClick={onToggleCamera} className="btn-camera">
             CÁMARA
           </button>
           <button 
             onClick={onScan} 
-            className="btn-red"
+            className="btn-scan"
             disabled={isScanning}
           >
             {isScanning ? '...' : 'SCAN'}
           </button>
         </div>
         
+        {/* Status screen */}
         <div className="green-screen">
           <p>{status}</p>
         </div>
-        
-        <button onClick={onShowModelPanel} className="btn-model-status">
-          🔧 Estado del Modelo
-        </button>
       </div>
     </div>
   )

@@ -4,158 +4,254 @@
   border-radius: 0 20px 20px 0;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  min-width: 350px;
+  gap: 15px;
+  min-width: 380px;
+  max-width: 420px;
 }
 
-.info-screen {
-  background: #8bac0f;
-  padding: 20px;
-  border-radius: 10px;
-  border: 10px solid #333;
-  flex: 1;
-  min-height: 300px;
-  overflow-y: auto;
+/* Display Screen - Classic Game Boy style */
+.display-screen {
+  background: #232323;
+  border-radius: 10px 10px 25px 10px;
+  padding: 15px;
+  border: 8px solid #333;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
 }
 
-.info-screen h2 {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 14px;
-  margin-bottom: 15px;
-  text-transform: uppercase;
-  color: #2d3b05;
+.waiting-text {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 18px;
+  color: #00ff00;
   text-align: center;
+  text-shadow: 0 0 10px rgba(0,255,0,0.5);
+  margin-bottom: 20px;
+}
+
+.instruction-text {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 12px;
+  color: #888;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Pokemon Display */
+.pokemon-name {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  color: #00ff00;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .pokemon-image-container {
   display: flex;
   justify-content: center;
-  margin: 20px 0;
+  margin: 10px 0;
 }
 
 .pokemon-image {
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
   image-rendering: pixelated;
-  filter: drop-shadow(3px 3px 0 rgba(0,0,0,0.3));
+  filter: drop-shadow(2px 2px 0 rgba(0,255,0,0.3));
 }
 
-.info-content {
-  font-size: 12px;
+.pokemon-info {
+  width: 100%;
+  color: #00ff00;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 11px;
 }
 
-.detail-row {
+.info-row {
   display: flex;
   justify-content: space-between;
-  margin: 8px 0;
-  padding: 5px 0;
-  border-bottom: 1px solid rgba(45,59,5,0.3);
+  margin: 5px 0;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(0,255,0,0.2);
 }
 
-.detail-row .label {
+.info-label {
   font-weight: bold;
-  color: #2d3b05;
-}
-
-.detail-row .value {
-  color: #4a5d0a;
 }
 
 .type-badge {
-  background: #ff6b6b;
-  color: white;
   padding: 2px 8px;
   border-radius: 10px;
   font-size: 10px;
+  color: white;
 }
 
-.description {
-  margin-top: 15px;
-  padding: 10px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 5px;
+.pokemon-description {
+  margin-top: 10px;
   font-style: italic;
+  font-size: 10px;
   line-height: 1.4;
-}
-
-.instruction {
   text-align: center;
-  color: #4a5d0a;
-  margin-top: 50px;
 }
 
-.numpad-container {
+/* Type Filters */
+.type-filters {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.type-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-weight: bold;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  box-shadow: 0 3px 0 rgba(0,0,0,0.3);
+}
+
+.type-btn:active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+.type-btn.active {
+  box-shadow: 0 0 10px rgba(255,255,255,0.5), 0 3px 0 rgba(0,0,0,0.3);
+}
+
+/* Control Buttons */
+.control-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.info-btn, .voice-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+}
+
+.info-btn {
+  background: #222;
+  color: white;
+}
+
+.voice-btn {
+  background: #222;
+  color: white;
+}
+
+.info-btn:active, .voice-btn:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+/* Numpad Section */
+.numpad-section {
   background: #2d3436;
   padding: 15px;
-  border-radius: 10px;
+  border-radius: 15px;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
 }
 
 .numpad-display {
   background: #8bac0f;
   padding: 10px;
   text-align: center;
-  font-family: 'Press Start 2P', cursive;
-  font-size: 16px;
-  margin-bottom: 10px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  margin-bottom: 12px;
   border-radius: 5px;
   color: #2d3b05;
+  border: 3px solid #333;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
 }
 
-.numpad {
+.numpad-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
+  gap: 8px;
 }
 
-.numpad button {
-  padding: 15px;
-  background: #636e72;
+.numpad-btn {
+  padding: 12px;
+  background: linear-gradient(145deg, #00a8e8, #0077b6);
   border: none;
-  border-radius: 5px;
+  border-radius: 50%;
   color: white;
   font-weight: bold;
+  font-size: 14px;
   cursor: pointer;
   transition: all 0.2s;
+  box-shadow: 
+    0 4px 0 #005a8c,
+    0 5px 5px rgba(0,0,0,0.3),
+    inset 0 2px 2px rgba(255,255,255,0.3);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 
-.numpad button:hover {
-  background: #74b9ff;
+.numpad-btn:hover {
+  background: linear-gradient(145deg, #00b4f0, #0085c7);
 }
 
-.numpad button.go-btn {
-  background: #ff3333;
+.numpad-btn:active {
+  transform: translateY(4px);
+  box-shadow: 
+    0 0 0 #005a8c,
+    0 1px 2px rgba(0,0,0,0.3),
+    inset 0 2px 5px rgba(0,0,0,0.3);
 }
 
-.numpad button.go-btn:hover {
-  background: #ff6666;
+.numpad-btn.go {
+  background: linear-gradient(145deg, #ff3333, #cc0000);
+  box-shadow: 
+    0 4px 0 #990000,
+    0 5px 5px rgba(0,0,0,0.3),
+    inset 0 2px 2px rgba(255,255,255,0.3);
 }
 
-.right-controls {
-  display: flex;
-  gap: 10px;
+.numpad-btn.go:hover {
+  background: linear-gradient(145deg, #ff4444, #dd1111);
 }
 
-.btn-black {
-  flex: 1;
-  padding: 15px;
-  background: #2d3436;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  font-size: 11px;
-  cursor: pointer;
-  border-bottom: 3px solid #000;
-  transition: all 0.2s;
+.numpad-btn.go:active {
+  box-shadow: 
+    0 0 0 #990000,
+    0 1px 2px rgba(0,0,0,0.3),
+    inset 0 2px 5px rgba(0,0,0,0.3);
 }
 
-.btn-black:active {
-  border-bottom: none;
-  transform: translateY(3px);
-}
-
+/* Responsive */
 @media (max-width: 768px) {
   .pokedex-right {
     border-radius: 0 0 20px 20px;
     min-width: 300px;
+  }
+  
+  .type-filters {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .type-btn {
+    font-size: 10px;
+    padding: 6px 8px;
+  }
+  
+  .numpad-btn {
+    padding: 10px;
+    font-size: 12px;
   }
 }
