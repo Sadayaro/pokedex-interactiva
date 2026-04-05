@@ -204,67 +204,43 @@
       ],
       "weights": [
         {
-          "name": "weight_0",
-          "shape": [
-            3,
-            3,
-            3,
-            16
-          ],
+          "name": "conv2d_Conv2D1/kernel",
+          "shape": [3, 3, 3, 16],
           "dtype": "float32"
         },
         {
-          "name": "weight_1",
-          "shape": [
-            16
-          ],
+          "name": "conv2d_Conv2D1/bias",
+          "shape": [16],
           "dtype": "float32"
         },
         {
-          "name": "weight_2",
-          "shape": [
-            3,
-            3,
-            16,
-            32
-          ],
+          "name": "conv2d_Conv2D2/kernel",
+          "shape": [3, 3, 16, 32],
           "dtype": "float32"
         },
         {
-          "name": "weight_3",
-          "shape": [
-            32
-          ],
+          "name": "conv2d_Conv2D2/bias",
+          "shape": [32],
           "dtype": "float32"
         },
         {
-          "name": "weight_4",
-          "shape": [
-            93312,
-            128
-          ],
+          "name": "dense_Dense1/kernel",
+          "shape": [93312, 128],
           "dtype": "float32"
         },
         {
-          "name": "weight_5",
-          "shape": [
-            128
-          ],
+          "name": "dense_Dense1/bias",
+          "shape": [128],
           "dtype": "float32"
         },
         {
-          "name": "weight_6",
-          "shape": [
-            128,
-            15
-          ],
+          "name": "dense_Dense2/kernel",
+          "shape": [128, 15],
           "dtype": "float32"
         },
         {
-          "name": "weight_7",
-          "shape": [
-            15
-          ],
+          "name": "dense_Dense2/bias",
+          "shape": [15],
           "dtype": "float32"
         }
       ]
