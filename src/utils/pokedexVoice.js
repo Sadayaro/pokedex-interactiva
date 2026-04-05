@@ -21,7 +21,7 @@ class PokedexVoice {
     // First, use speech synthesis to generate audio
     const utterance = new SpeechSynthesisUtterance(text)
     utterance.lang = 'es-ES'
-    utterance.rate = 0.6
+    utterance.rate = 1.0
     utterance.pitch = 0.3
     utterance.volume = 1
     
