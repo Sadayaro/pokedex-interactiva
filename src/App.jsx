@@ -55,6 +55,9 @@ function App() {
 
   // Start camera
   const startPokedex = useCallback(async () => {
+    // Mark user interaction for audio context
+    pokedexVoice.userInteracted()
+    
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: 'environment', width: 640, height: 480 },
@@ -68,7 +71,9 @@ function App() {
       setIsStarted(true)
       
       // Welcome message with Pokedex metallic voice
-      pokedexVoice.speakWelcome()
+      setTimeout(() => {
+        pokedexVoice.speakWelcome()
+      }, 500)
     } catch (error) {
       console.error('Camera error:', error)
       alert('No se pudo acceder a la cámara')
