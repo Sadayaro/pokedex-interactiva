@@ -76,7 +76,7 @@ function App() {
     }
   }, [])
 
-  // Scan Pokemon
+  // Scan Pokemon using ML model
   const scanPokemon = useCallback(async () => {
     if (!mobilenetModelRef.current || !videoRef.current) return
     
@@ -84,12 +84,58 @@ function App() {
     setStatus('Escaneando...')
     
     // Scanning effect
-    await new Promise(resolve => setTimeout(resolve, 2000))
+    await new Promise(resolve => setTimeout(resolve, 1500))
     
     try {
-      // Get random pokemon for demo (in real app, would use ML prediction)
-      const randomId = Math.floor(Math.random() * 151) + 1
-      const pokemon = pokemonData.find(p => p.id === randomId)
+      let pokemon = null
+      
+      // Try to use CNN model first if available
+      if (pokemonModelRef.current && canvasRef.current) {
+        const canvas = canvasRef.current
+        const ctx = canvas.getContext('2d')
+        
+        // Draw video frame to canvas
+        canvas.width = 224
+        canvas.height = 224
+        ctx.drawImage(videoRef.current, 0, 0, 224, 224)
+        
+        // Get image data and preprocess
+        const imageData = ctx.getImageData(0, 0, 224, 224)
+        const tensor = tf.browser.fromPixels(imageData)
+          .expandDims(0)
+          .div(255.0)
+        
+        // Predict with CNN model
+        const prediction = pokemonModelRef.current.predict(tensor)
+        const scores = await prediction.data()
+        const maxIndex = scores.indexOf(Math.max(...scores))
+        
+        // Map to Pokemon (model has 15 classes)
+        const modelClasses = [1, 2, 3, 4, 5, 6, 7, 8, 9, 25, 26, 133, 143, 150, 151]
+        const predictedId = modelClasses[maxIndex]
+        pokemon = pokemonData.find(p => p.id === predictedId)
+        
+        tensor.dispose()
+        prediction.dispose()
+      } else {
+        // Fallback: use MobileNet to classify then find closest Pokemon
+        const result = await mobilenetModelRef.current.classify(videoRef.current)
+        if (result && result[0]) {
+          // Try to find Pokemon by matching the MobileNet label
+          const label = result[0].className.toLowerCase()
+          pokemon = pokemonData.find(p => 
+            label.includes(p.name.toLowerCase()) ||
+            p.name.toLowerCase().includes(label.split(',')[0])
+          )
+        }
+      }
+      
+      // If no match found, pick random from the 15 supported Pokemon
+      if (!pokemon) {
+        const supportedIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 25, 26, 133, 143, 150, 151]
+        const randomId = supportedIds[Math.floor(Math.random() * supportedIds.length)]
+        pokemon = pokemonData.find(p => p.id === randomId)
+      }
       
       if (pokemon) {
         setCurrentPokemon(pokemon)
