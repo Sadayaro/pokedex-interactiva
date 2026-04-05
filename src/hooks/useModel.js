@@ -17,13 +17,16 @@ export const loadMobileNet = async () => {
 export const loadPokemonModel = async () => {
   try {
     console.log('Cargando modelo Pokémon...')
-    // Usar ruta relativa para que funcione en local y producción
-    const modelUrl = '/pokemon-model/model.json'
+    // Usar URL completa para producción
+    const modelUrl = window.location.origin + '/pokemon-model/model.json'
+    console.log('URL del modelo:', modelUrl)
+    
     const model = await tf.loadLayersModel(modelUrl)
     console.log('✅ Modelo Pokémon cargado')
     return model
   } catch (error) {
-    console.error('❌ Error cargando modelo:', error)
+    console.error('❌ Error cargando modelo:', error.message)
+    console.error('Detalles:', error)
     return null
   }
 }
