@@ -22,25 +22,26 @@ export const loadPokemonModel = async () => {
     
     console.log('URLs:', { modelUrl, weightsUrl })
     
-    // Verificar que los archivos existen primero
-    const modelResponse = await fetch(modelUrl)
+    // Verificar que los archivos existen primero (sin caché)
+    const modelResponse = await fetch(modelUrl, { cache: 'no-store' })
     if (!modelResponse.ok) {
       throw new Error(`Modelo no encontrado: ${modelResponse.status}`)
     }
     console.log('✅ model.json accesible')
     
-    const weightsResponse = await fetch(weightsUrl)
+    const weightsResponse = await fetch(weightsUrl, { cache: 'no-store' })
     if (!weightsResponse.ok) {
       throw new Error(`Weights no encontrados: ${weightsResponse.status}`)
     }
     console.log('✅ weights.bin accesible')
     
-    // Cargar el modelo usando HTTP IO handler
-    const model = await tf.loadLayersModel(tf.io.http(modelUrl, {
-      weightUrlConverter: async (weightManifest) => {
-        return weightsUrl
-      }
-    }))
+    // Cargar el modelo usando HTTP IO handler sin caché
+    const model = await tf.loadLayersModel(
+      tf.io.http(modelUrl, {
+        weightUrlConverter: async () => weightsUrl,
+        fetchFunc: (url) => fetch(url, { cache: 'no-store' })
+      })
+    )
     
     console.log('✅ Modelo Pokémon cargado exitosamente')
     return model
