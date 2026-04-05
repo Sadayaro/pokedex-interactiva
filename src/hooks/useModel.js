@@ -17,16 +17,36 @@ export const loadMobileNet = async () => {
 export const loadPokemonModel = async () => {
   try {
     console.log('Cargando modelo Pokémon...')
-    // Usar URL completa para producción
     const modelUrl = window.location.origin + '/pokemon-model/model.json'
-    console.log('URL del modelo:', modelUrl)
+    const weightsUrl = window.location.origin + '/pokemon-model/weights.bin'
     
-    const model = await tf.loadLayersModel(modelUrl)
-    console.log('✅ Modelo Pokémon cargado')
+    console.log('URLs:', { modelUrl, weightsUrl })
+    
+    // Verificar que los archivos existen primero
+    const modelResponse = await fetch(modelUrl)
+    if (!modelResponse.ok) {
+      throw new Error(`Modelo no encontrado: ${modelResponse.status}`)
+    }
+    console.log('✅ model.json accesible')
+    
+    const weightsResponse = await fetch(weightsUrl)
+    if (!weightsResponse.ok) {
+      throw new Error(`Weights no encontrados: ${weightsResponse.status}`)
+    }
+    console.log('✅ weights.bin accesible')
+    
+    // Cargar el modelo usando HTTP IO handler
+    const model = await tf.loadLayersModel(tf.io.http(modelUrl, {
+      weightUrlConverter: async (weightManifest) => {
+        return weightsUrl
+      }
+    }))
+    
+    console.log('✅ Modelo Pokémon cargado exitosamente')
     return model
   } catch (error) {
     console.error('❌ Error cargando modelo:', error.message)
-    console.error('Detalles:', error)
+    console.error('Stack:', error.stack)
     return null
   }
 }
